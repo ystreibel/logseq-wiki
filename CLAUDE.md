@@ -1,6 +1,6 @@
 # logseq-wiki — Agent Context
 
-A **skill-based framework** for building and maintaining a Logseq knowledge base using the LLM Wiki pattern. No scripts, no API keys — markdown instructions that you execute directly.
+A **skill-based framework** for building and maintaining a Logseq knowledge base using the LLM Wiki pattern (inspired by [Andrej Karpathy's gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)). No scripts, no API keys — markdown instructions that you execute directly.
 
 ## Configuration
 
