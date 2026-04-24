@@ -99,24 +99,27 @@ No YAML front matter (`---` delimiters). Properties sit at the top of the page a
 
 ### Vault structure
 
-Logseq graphs have a fixed layout:
+Logseq vaults have a fixed layout. The framework only writes into `wiki/` — everything else is read-only:
 
 ```
 $LOGSEQ_VAULT_PATH/
-├── pages/          # Named pages — your wiki lives here
-├── journals/       # Daily journal pages — read-only for ingest, never written
-├── assets/         # Images and attachments
-├── wiki/           # Generated wiki pages (namespace: wiki/)
-│   ├── concepts/
-│   ├── entities/
-│   ├── skills/
-│   ├── references/
-│   └── synthesis/
-├── logseq/         # Logseq app config — do not touch
-└── .manifest.json  # Ingest tracking ledger
+├── pages/              # Your notes (READ ONLY)
+├── journals/           # Daily notes YYYY_MM_DD.md (READ ONLY)
+├── assets/             # Images and attachments (READ ONLY)
+├── logseq/             # Logseq app config — do not touch (READ ONLY)
+└── wiki/               # Generated wiki — only directory written by the framework
+    ├── _master-index.md   # Auto-maintained catalog
+    ├── _manifest.json     # Ingest tracking ledger
+    ├── _log.md            # Chronological operation log
+    ├── _meta/
+    │   └── taxonomy.md    # Controlled tag vocabulary
+    ├── _archive/          # Snapshots for rebuild/restore
+    └── [thème]/           # One subdirectory per theme (detected from pages/)
+        ├── _index.md
+        └── [page].md
 ```
 
-Journal pages (`journals/`) are treated as **read-only source material** — the framework ingests knowledge from them but never writes there. All generated pages go under `pages/` or the `wiki/` namespace.
+Journal pages (`journals/`) are treated as **read-only source material** — the framework ingests knowledge from them but never writes there. All generated pages go under `wiki/`.
 
 ### Links
 

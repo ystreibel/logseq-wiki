@@ -34,8 +34,7 @@ Utiliser Bash :
 ```bash
 DATE=$(date +%Y-%m-%d)
 mkdir -p wiki/_archive/$DATE
-find wiki -maxdepth 1 -not -name '_archive' -not -name 'wiki' -exec mv {} wiki/_archive/$DATE/ \;
-find wiki -mindepth 2 -maxdepth 2 -not -path 'wiki/_archive/*' -exec mv {} wiki/_archive/$DATE/ \;
+find wiki -mindepth 1 -not -path 'wiki/_archive' -not -path 'wiki/_archive/*' | sort -r | xargs -I{} mv {} wiki/_archive/$DATE/ 2>/dev/null || true
 ```
 
 ## Étape 2 : Réinitialiser

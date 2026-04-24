@@ -66,7 +66,7 @@ From any project directory, two global skills work after running `bash setup.sh`
 4. Write to `$VAULT/wiki/projects/<project-name>.md`, cross-linking to theme pages
 5. Update `wiki/_manifest.json`, `wiki/_master-index.md`, `wiki/_log.md`
 
-On repeat runs, checks `last_commit_synced` in `_manifest.json` and only processes the delta.
+On repeat runs, checks `content_hash` in `wiki/_manifest.json` and only processes modified sources.
 
 ### logseq-query (read from wiki)
 

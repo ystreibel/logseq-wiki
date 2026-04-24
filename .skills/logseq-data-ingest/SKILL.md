@@ -123,7 +123,7 @@ Follow the `logseq-llm-wiki` skill's process for creating/updating pages:
 Example page format:
 ```
 title:: Chat Export Analysis: Team Decision on API Design
-tags:: #api #decisions #from-data-ingest
+tags:: api, decisions, from-data-ingest
 sources:: [["ChatGPT Export", "path/to/conversations.json"]]
 summary:: Team chose REST over GraphQL for initial API due to team expertise and timeline constraints.
 provenance::

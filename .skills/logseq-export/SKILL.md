@@ -38,7 +38,7 @@ For each page, extract from Logseq properties (using `title::` syntax, NOT YAML 
 - `id` — relative path from vault root, without `.md` extension (e.g. `wiki/concept/transformers`)
 - `label` — Logseq property `title::` value, or filename if missing
 - `category` — directory prefix within `wiki/` (e.g. `concept`, `entity`, `skill`, `reference`)
-- `tags` — array from Logseq properties `tags::` (format: `tags:: [[tag1]] [[tag2]]`)
+- `tags` — array from Logseq property `tags::` (format: `tags:: tag1, tag2` — plain text, comma-separated)
 - `summary` — Logseq property `summary::` if present
 
 This is your **node list**.

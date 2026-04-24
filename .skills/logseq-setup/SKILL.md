@@ -79,6 +79,33 @@ updated:: [DATE]
 }
 ```
 
+### `wiki/_meta/taxonomy.md`
+```
+title:: Taxonomie — Tags Contrôlés
+category:: meta
+tags:: taxonomy, wiki, meta
+summary:: Vocabulaire contrôlé de tags pour le wiki Logseq.
+created:: [DATE]
+updated:: [DATE]
+
+# Taxonomie des Tags
+
+## Règles
+- Maximum 5 tags par page (hors tags de visibilité)
+- Minuscules et tirets uniquement : `mon-tag` pas `MonTag`
+- Préférer large à spécifique : `kubernetes` pas `kubernetes-3488`
+- Les tags `visibility/public`, `visibility/internal`, `visibility/pii` sont réservés
+
+## Tags canoniques
+
+| Tag | Usage |
+|---|---|
+| index | Pages _index.md |
+| wiki | Pages méta du wiki |
+| log | Fichiers de log |
+| meta | Fichiers de configuration wiki |
+```
+
 ### Pour chaque thème détecté : `wiki/[thème]/_index.md`
 ```
 title:: [Thème] — Index
