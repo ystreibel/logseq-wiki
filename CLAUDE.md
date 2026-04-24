@@ -41,30 +41,30 @@ Skills live in `.skills/<name>/SKILL.md`. Match the user's intent to the right s
 
 | User says something like… | Skill |
 |---|---|
-| "initialise mon wiki" / "setup" / "set up my wiki" | `logseq-setup` |
-| "ingère mon vault" / "ingest complet" / "distille mes notes" | `logseq-ingest` |
-| "mets à jour mon wiki" / "update wiki" / "sync mon wiki" | `logseq-update` |
-| "statut" / "tableau de bord wiki" / "what's the status" | `logseq-status` |
-| "vérifie mon wiki" / "lint" / "liens cassés" / "wiki health" | `logseq-lint` |
-| "qu'est-ce que X" / "trouve" / "que sais-je sur" / any question | `logseq-query` |
-| "reparts de zéro" / "rebuild" / "archive et reconstruit" | `logseq-rebuild` |
-| "tisse les liens" / "cross-link" / "connecte mon wiki" | `logseq-cross-linker` |
-| "/logseq-ingest-url <url>" / "add this URL to the wiki" | `logseq-ingest-url` |
-| "ingest cette data" / "importe ce log" / "process these logs" | `logseq-data-ingest` |
-| "fix mes tags" / "tag audit" / "normalise les tags" | `logseq-tag-taxonomy` |
-| "export wiki" / "export graphml" / "visualise wiki" | `logseq-export` |
-| "/logseq-history-ingest claude\|codex\|hermes\|openclaw" | `logseq-history-ingest` |
-| "importe mon historique Claude" / "mine my conversations" | `logseq-claude-history-ingest` |
-| "importe mon historique Codex" / "process my Codex sessions" | `logseq-codex-history-ingest` |
-| "importe mon historique Hermes" / "process my Hermes memories" | `logseq-hermes-history-ingest` |
-| "importe mon historique OpenClaw" / "process my OpenClaw sessions" | `logseq-openclaw-history-ingest` |
+| "initialise mon wiki" / "setup" / "set up my wiki" | `wiki-setup` |
+| "ingère mon vault" / "ingest complet" / "distille mes notes" | `wiki-ingest` |
+| "mets à jour mon wiki" / "update wiki" / "sync mon wiki" | `wiki-update` |
+| "statut" / "tableau de bord wiki" / "what's the status" | `wiki-status` |
+| "vérifie mon wiki" / "lint" / "liens cassés" / "wiki health" | `wiki-lint` |
+| "qu'est-ce que X" / "trouve" / "que sais-je sur" / any question | `wiki-query` |
+| "reparts de zéro" / "rebuild" / "archive et reconstruit" | `wiki-rebuild` |
+| "tisse les liens" / "cross-link" / "connecte mon wiki" | `cross-linker` |
+| "/ingest-url <url>" / "add this URL to the wiki" | `ingest-url` |
+| "ingest cette data" / "importe ce log" / "process these logs" | `data-ingest` |
+| "fix mes tags" / "tag audit" / "normalise les tags" | `tag-taxonomy` |
+| "export wiki" / "export graphml" / "visualise wiki" | `wiki-export` |
+| "/wiki-history-ingest claude\|codex\|hermes\|openclaw" | `wiki-history-ingest` |
+| "importe mon historique Claude" / "mine my conversations" | `claude-history-ingest` |
+| "importe mon historique Codex" / "process my Codex sessions" | `codex-history-ingest` |
+| "importe mon historique Hermes" / "process my Hermes memories" | `hermes-history-ingest` |
+| "importe mon historique OpenClaw" / "process my OpenClaw sessions" | `openclaw-history-ingest` |
 | "crée un skill" / "nouveau skill" / "create a skill" | `skill-creator` |
 
 ## Cross-Project Usage
 
 From any project directory, two global skills work after running `bash setup.sh`:
 
-### logseq-update (write to wiki)
+### wiki-update (write to wiki)
 
 1. Read `~/.logseq-wiki/config` to get `LOGSEQ_VAULT_PATH`
 2. Scan current project: README, source structure, git log
@@ -74,7 +74,7 @@ From any project directory, two global skills work after running `bash setup.sh`
 
 On repeat runs, checks `content_hash` in `wiki/_manifest.json` and only processes the delta.
 
-### logseq-query (read from wiki)
+### wiki-query (read from wiki)
 
 1. Read `~/.logseq-wiki/config` to get `LOGSEQ_VAULT_PATH`
 2. Grep `title::` and `summary::` first (cheap pass)
@@ -105,4 +105,4 @@ Filtered mode is opt-in: triggered by phrases like "public only", "no internal c
 
 ## Architecture Reference
 
-For the full Logseq syntax, page format, manifest structure, and retrieval primitives, read `.skills/logseq-llm-wiki/SKILL.md`.
+For the full Logseq syntax, page format, manifest structure, and retrieval primitives, read `.skills/llm-wiki/SKILL.md`.

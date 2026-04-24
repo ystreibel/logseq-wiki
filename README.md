@@ -24,7 +24,7 @@ cd logseq-wiki
 bash setup.sh
 ```
 
-`setup.sh` asks for your vault path, writes the config to `~/.logseq-wiki/config`, symlinks skills into all your agents, and installs `logseq-update` globally so you can use it from any project.
+`setup.sh` asks for your vault path, writes the config to `~/.logseq-wiki/config`, symlinks skills into all your agents, and installs `wiki-update` globally so you can use it from any project.
 
 `LOGSEQ_VAULT_PATH` is any Logseq graph directory you want your wiki documents to live in. It can be a new empty folder or an existing Logseq graph.
 
@@ -36,24 +36,24 @@ Everything lives in `.skills/`. Each skill is a markdown file the agent reads wh
 
 | Skill                        | What it does                                                             | Slash Command                                      |
 | ---------------------------- | ------------------------------------------------------------------------ | -------------------------------------------------- |
-| `logseq-setup`               | Initialize vault structure                                               | `/logseq-setup`                                    |
-| `logseq-ingest`              | Distill documents into wiki pages                                        | `/logseq-ingest`                                   |
-| `logseq-ingest-url`          | Ingest a URL into the wiki                                               | `/logseq-ingest-url`                               |
-| `logseq-history-ingest`      | Unified history router (`claude`, `codex`, `hermes`, `openclaw`)         | `/logseq-history-ingest <agent>`                   |
-| `logseq-claude-history-ingest` | Mine your `~/.claude` conversations and memories                       | `/logseq-claude-history-ingest`                    |
-| `logseq-codex-history-ingest` | Mine your `~/.codex` sessions and rollouts                              | `/logseq-codex-history-ingest`                     |
-| `logseq-hermes-history-ingest` | Mine your `~/.hermes` memories and sessions                            | `/logseq-hermes-history-ingest`                    |
-| `logseq-openclaw-history-ingest` | Mine your `~/.openclaw` MEMORY.md and sessions                       | `/logseq-openclaw-history-ingest`                  |
-| `logseq-data-ingest`         | Ingest any text — chat exports, logs, transcripts                        | `/logseq-data-ingest`                              |
-| `logseq-status`              | Show what's ingested, what's pending, the delta                          | `/logseq-status`                                   |
-| `logseq-rebuild`             | Archive, rebuild from scratch, or restore                                | `/logseq-rebuild`                                  |
-| `logseq-query`               | Answer questions from the wiki                                           | `/logseq-query`                                    |
-| `logseq-lint`                | Find broken links, orphans, contradictions                               | `/logseq-lint`                                     |
-| `logseq-cross-linker`        | Auto-discover and insert missing page links                              | `/logseq-cross-linker`                             |
-| `logseq-tag-taxonomy`        | Enforce consistent tag vocabulary across pages                           | `/logseq-tag-taxonomy`                             |
-| `logseq-llm-wiki`            | The core pattern and architecture reference                              | `/logseq-llm-wiki`                                 |
-| `logseq-update`              | Sync current project's knowledge into the vault                          | `/logseq-update`                                   |
-| `logseq-export`              | Export vault graph to JSON, GraphML, Neo4j, HTML                         | `/logseq-export`                                   |
+| `wiki-setup`               | Initialize vault structure                                               | `/wiki-setup`                                    |
+| `wiki-ingest`              | Distill documents into wiki pages                                        | `/wiki-ingest`                                   |
+| `ingest-url`          | Ingest a URL into the wiki                                               | `/ingest-url`                               |
+| `wiki-history-ingest`      | Unified history router (`claude`, `codex`, `hermes`, `openclaw`)         | `/wiki-history-ingest <agent>`                   |
+| `claude-history-ingest` | Mine your `~/.claude` conversations and memories                       | `/claude-history-ingest`                    |
+| `codex-history-ingest` | Mine your `~/.codex` sessions and rollouts                              | `/codex-history-ingest`                     |
+| `hermes-history-ingest` | Mine your `~/.hermes` memories and sessions                            | `/hermes-history-ingest`                    |
+| `openclaw-history-ingest` | Mine your `~/.openclaw` MEMORY.md and sessions                       | `/openclaw-history-ingest`                  |
+| `data-ingest`         | Ingest any text — chat exports, logs, transcripts                        | `/data-ingest`                              |
+| `wiki-status`              | Show what's ingested, what's pending, the delta                          | `/wiki-status`                                   |
+| `wiki-rebuild`             | Archive, rebuild from scratch, or restore                                | `/wiki-rebuild`                                  |
+| `wiki-query`               | Answer questions from the wiki                                           | `/wiki-query`                                    |
+| `wiki-lint`                | Find broken links, orphans, contradictions                               | `/wiki-lint`                                     |
+| `cross-linker`        | Auto-discover and insert missing page links                              | `/cross-linker`                             |
+| `tag-taxonomy`        | Enforce consistent tag vocabulary across pages                           | `/tag-taxonomy`                             |
+| `llm-wiki`            | The core pattern and architecture reference                              | `/llm-wiki`                                 |
+| `wiki-update`              | Sync current project's knowledge into the vault                          | `/wiki-update`                                   |
+| `wiki-export`              | Export vault graph to JSON, GraphML, Neo4j, HTML                         | `/wiki-export`                                   |
 | `skill-creator`              | Create new skills                                                        | `/skill-creator`                                   |
 
 > **Note:** Slash commands (`/skill-name`) work in Claude Code, Cursor, and Windsurf. In other agents, just describe what you want and the agent will find the right skill.
@@ -64,23 +64,23 @@ This framework works with **any AI coding agent** that can read files. The `setu
 
 | Agent                                                     | Bootstrap Files                                                           | Skills Directory                                    | Slash Commands                                                    |
 | --------------------------------------------------------- | ------------------------------------------------------------------------- | --------------------------------------------------- | ----------------------------------------------------------------- |
-| **[Claude Code](https://claude.ai/code)**                 | `CLAUDE.md`                                                               | `.claude/skills/` + `~/.claude/skills/` (portable)  | `/logseq-ingest`, `/logseq-status`, etc.                          |
-| **[Cursor](https://cursor.com)**                          | `.cursor/rules/logseq-wiki.mdc`                                           | `.cursor/skills/`                                   | `/logseq-ingest`, `/logseq-status`, etc.                          |
+| **[Claude Code](https://claude.ai/code)**                 | `CLAUDE.md`                                                               | `.claude/skills/` + `~/.claude/skills/` (portable)  | `/wiki-ingest`, `/wiki-status`, etc.                          |
+| **[Cursor](https://cursor.com)**                          | `.cursor/rules/logseq-wiki.mdc`                                           | `.cursor/skills/`                                   | `/wiki-ingest`, `/wiki-status`, etc.                          |
 | **[Windsurf](https://windsurf.com)**                      | `.windsurf/rules/logseq-wiki.md`                                          | `.windsurf/skills/`                                 | via Cascade                                                       |
-| **[Codex (OpenAI)](https://openai.com/codex)**            | `AGENTS.md`                                                               | `~/.codex/skills/`                                  | `$logseq-ingest` (Codex uses `$`)                                 |
-| **[Gemini CLI](https://github.com/google-gemini/gemini-cli)** | `GEMINI.md`                                                           | `~/.gemini/skills/`                                 | `/logseq-ingest`, `/logseq-query`, etc.                           |
+| **[Codex (OpenAI)](https://openai.com/codex)**            | `AGENTS.md`                                                               | `~/.codex/skills/`                                  | `$wiki-ingest` (Codex uses `$`)                                 |
+| **[Gemini CLI](https://github.com/google-gemini/gemini-cli)** | `GEMINI.md`                                                           | `~/.gemini/skills/`                                 | `/wiki-ingest`, `/wiki-query`, etc.                           |
 | **[Google Antigravity](https://antigravity.google)**      | `.agent/rules/logseq-wiki.md` + `.agent/workflows/logseq-wiki.md`         | `.agents/skills/` + `~/.gemini/antigravity/skills/` | slash commands via workflows registry                             |
-| **[Kiro IDE/CLI](https://kiro.dev)**                      | `.kiro/steering/logseq-wiki.md` (`inclusion: always`)                     | `.kiro/skills/` + `~/.kiro/skills/`                 | `/logseq-ingest`, `/logseq-status`, etc.                          |
-| **[Hermes (NousResearch)](https://hermes-agent.nousresearch.com)** | `.hermes.md` (→ `AGENTS.md`)                                    | `~/.hermes/skills/`                                 | `/logseq-history-ingest hermes`, etc.                             |
-| **[OpenClaw](https://openclaw.ai)**                       | `AGENTS.md`                                                               | `~/.openclaw/skills/` + `~/.agents/skills/`         | `/logseq-ingest`, `/logseq-history-ingest openclaw`, etc.         |
-| **[OpenCode](https://opencode.ai)**                       | `AGENTS.md`                                                               | `~/.agents/skills/`                                 | `/logseq-ingest`, `/logseq-query`, etc.                           |
+| **[Kiro IDE/CLI](https://kiro.dev)**                      | `.kiro/steering/logseq-wiki.md` (`inclusion: always`)                     | `.kiro/skills/` + `~/.kiro/skills/`                 | `/wiki-ingest`, `/wiki-status`, etc.                          |
+| **[Hermes (NousResearch)](https://hermes-agent.nousresearch.com)** | `.hermes.md` (→ `AGENTS.md`)                                    | `~/.hermes/skills/`                                 | `/wiki-history-ingest hermes`, etc.                             |
+| **[OpenClaw](https://openclaw.ai)**                       | `AGENTS.md`                                                               | `~/.openclaw/skills/` + `~/.agents/skills/`         | `/wiki-ingest`, `/wiki-history-ingest openclaw`, etc.         |
+| **[OpenCode](https://opencode.ai)**                       | `AGENTS.md`                                                               | `~/.agents/skills/`                                 | `/wiki-ingest`, `/wiki-query`, etc.                           |
 | **[Aider](https://aider.chat)**                           | `AGENTS.md`                                                               | `~/.agents/skills/`                                 | Describe intent in chat — Aider reads the skill it needs          |
-| **[Factory Droid](https://factory.ai)**                   | `AGENTS.md`                                                               | `~/.agents/skills/`                                 | `/logseq-ingest`, `/logseq-query`, etc.                           |
+| **[Factory Droid](https://factory.ai)**                   | `AGENTS.md`                                                               | `~/.agents/skills/`                                 | `/wiki-ingest`, `/wiki-query`, etc.                           |
 | **[Trae](https://trae.ai)**                               | `AGENTS.md`                                                               | `~/.trae/skills/`                                   | via Agent tool                                                    |
 | **Trae CN**                                               | `AGENTS.md`                                                               | `~/.trae-cn/skills/`                                | via Agent tool                                                    |
 | **GitHub Copilot (VS Code Chat)**                         | `.github/copilot-instructions.md`                                         | —                                                   | Describe intent in chat                                           |
-| **GitHub Copilot (CLI)**                                  | —                                                                         | `~/.copilot/skills/`                                | `/logseq-ingest`, `/logseq-query`, etc.                           |
-| **[Kilocode](https://kilo.ai/)**                          | `AGENTS.md` (primary) or `CLAUDE.md` (compatibility)                      | `.agents/skills/` + `.claude/skills/`               | `/logseq-ingest`, `/logseq-status`, etc.                          |
+| **GitHub Copilot (CLI)**                                  | —                                                                         | `~/.copilot/skills/`                                | `/wiki-ingest`, `/wiki-query`, etc.                           |
+| **[Kilocode](https://kilo.ai/)**                          | `AGENTS.md` (primary) or `CLAUDE.md` (compatibility)                      | `.agents/skills/` + `.claude/skills/`               | `/wiki-ingest`, `/wiki-status`, etc.                          |
 
 > **How it works:** Each agent has its own convention for discovering skills. `setup.sh` symlinks the canonical `.skills/` directory into each agent's expected location, and creates the bootstrap file that tells the agent about the project. You write skills once, every agent can use them.
 
@@ -145,19 +145,19 @@ The `wiki/` prefix makes it clear which pages were generated by this framework v
 
 | Source | Skill | What it reads |
 |---|---|---|
-| Markdown, PDFs, text files | `logseq-ingest` | Any document directory |
-| Logseq pages | `logseq-ingest` | `pages/` directory of your graph |
-| Logseq journals | `logseq-ingest` | `journals/` — read as source material |
-| Logseq assets | `logseq-ingest` | Images, PDFs in `assets/` |
-| Claude Code history | `logseq-claude-history-ingest` | `~/.claude/` — conversations, memories, sessions |
-| Codex history | `logseq-codex-history-ingest` | `~/.codex/` — rollout JSONL, session index |
-| Hermes history | `logseq-hermes-history-ingest` | `~/.hermes/` — memories, session transcripts |
-| OpenClaw history | `logseq-openclaw-history-ingest` | `~/.openclaw/` — MEMORY.md, daily notes, sessions |
-| ChatGPT exports | `logseq-data-ingest` | `conversations.json` from ChatGPT export |
-| Slack / Discord logs | `logseq-data-ingest` | Channel export JSON files |
-| Meeting transcripts | `logseq-data-ingest` | Any text transcript |
-| Raw text dumps | `logseq-data-ingest` | Anything — CSV, logs, journals, notes |
-| URLs | `logseq-ingest-url` | Any web page |
+| Markdown, PDFs, text files | `wiki-ingest` | Any document directory |
+| Logseq pages | `wiki-ingest` | `pages/` directory of your graph |
+| Logseq journals | `wiki-ingest` | `journals/` — read as source material |
+| Logseq assets | `wiki-ingest` | Images, PDFs in `assets/` |
+| Claude Code history | `claude-history-ingest` | `~/.claude/` — conversations, memories, sessions |
+| Codex history | `codex-history-ingest` | `~/.codex/` — rollout JSONL, session index |
+| Hermes history | `hermes-history-ingest` | `~/.hermes/` — memories, session transcripts |
+| OpenClaw history | `openclaw-history-ingest` | `~/.openclaw/` — MEMORY.md, daily notes, sessions |
+| ChatGPT exports | `data-ingest` | `conversations.json` from ChatGPT export |
+| Slack / Discord logs | `data-ingest` | Channel export JSON files |
+| Meeting transcripts | `data-ingest` | Any text transcript |
+| Raw text dumps | `data-ingest` | Anything — CSV, logs, journals, notes |
+| URLs | `ingest-url` | Any web page |
 
 ## How it works
 
