@@ -1,6 +1,6 @@
 # logseq-wiki — Agent Context
 
-A **skill-based framework** for building and maintaining a Logseq knowledge base using the LLM Wiki pattern (inspired by [Andrej Karpathy's gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)). No scripts, no API keys — markdown instructions that you execute directly.
+A **skill-based framework** for building and maintaining a Logseq knowledge base using the LLM Wiki pattern. No scripts, no API keys — markdown instructions that you execute directly.
 
 ## Configuration
 
@@ -27,10 +27,13 @@ $LOGSEQ_VAULT_PATH/
     ├── _log.md
     ├── _meta/
     │   └── taxonomy.md
+    ├── _archive/          # Wiki snapshots (rebuild/restore)
     └── [thème]/
         ├── _index.md
         └── [page].md
 ```
+
+Every wiki page uses Logseq property syntax (`title:: value`, never YAML frontmatter). Pages connect via `[[wiki/thème/page]]` namespace links.
 
 ## Skill Routing
 
@@ -66,14 +69,27 @@ From any project directory, two global skills work after running `bash setup.sh`
 4. Write to `$VAULT/wiki/projects/<project-name>.md`, cross-linking to theme pages
 5. Update `wiki/_manifest.json`, `wiki/_master-index.md`, `wiki/_log.md`
 
-On repeat runs, checks `content_hash` in `wiki/_manifest.json` and only processes modified sources.
+On repeat runs, checks `content_hash` in `wiki/_manifest.json` and only processes the delta.
 
 ### logseq-query (read from wiki)
 
 1. Read `~/.logseq-wiki/config` to get `LOGSEQ_VAULT_PATH`
 2. Grep `title::` and `summary::` first (cheap pass)
 3. Read page bodies only when the cheap pass can't answer
-4. Return synthesized answer with `[[wikilinks]]` citations
+4. Return synthesized answer with `[[wiki/thème/page]]` citations
+
+## Visibility Tags (optional)
+
+Pages can carry a `visibility/` tag in their `tags::` property. Untagged pages are visible everywhere.
+
+| Tag | Meaning |
+|---|---|
+| *(no tag)* | Visible in all modes |
+| `visibility/public` | Explicitly public |
+| `visibility/internal` | Excluded in filtered query mode |
+| `visibility/pii` | Excluded in filtered query mode |
+
+Filtered mode is opt-in: triggered by phrases like "public only", "no internal content", "as a user would see it".
 
 ## Core Principles
 
