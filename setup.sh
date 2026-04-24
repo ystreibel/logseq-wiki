@@ -25,7 +25,8 @@
 #        - ~/.trae-cn/skills/     (Trae CN)
 #        - ~/.kiro/skills/        (Kiro CLI)
 #        - ~/.agents/skills/      (OpenCode, Aider, Factory Droid, generic)
-#   4. Prints a summary of what's ready
+#   4. Bootstraps AGENTS.md aliases (.hermes.md)
+#   5. Prints a summary of what's ready
 #
 set -e
 
@@ -100,6 +101,19 @@ LOGSEQ_WIKI_REPO="$SCRIPT_DIR"
 EOF
 echo "✅  Global config written to ~/.logseq-wiki/config"
 
+# ── Step 1c: Bootstrap symlinks ──────────────────────────────
+# .hermes.md → AGENTS.md  (Hermes resolves .hermes.md before AGENTS.md;
+# a symlink keeps a single source of truth)
+HERMES_BOOTSTRAP="$SCRIPT_DIR/.hermes.md"
+if [ -L "$HERMES_BOOTSTRAP" ]; then
+  rm "$HERMES_BOOTSTRAP"
+elif [ -f "$HERMES_BOOTSTRAP" ]; then
+  echo "⚠️   .hermes.md is a regular file, replacing with symlink"
+  rm "$HERMES_BOOTSTRAP"
+fi
+ln -s AGENTS.md "$HERMES_BOOTSTRAP"
+echo "✅  .hermes.md → AGENTS.md"
+
 # ── Step 2: Symlink skills into agent directories ─────────────
 # Project-local skill dirs. Each of these is where the matching agent looks
 # for skills scoped to this repo.
@@ -162,7 +176,8 @@ echo ""
 echo " Bootstrap files:"
 echo "   CLAUDE.md                           → Claude Code"
 echo "   GEMINI.md                           → Gemini / Antigravity"
-echo "   AGENTS.md                           → Codex, OpenClaw, OpenCode, Aider, Droid, Trae, Hermes"
+echo "   AGENTS.md                           → Codex, OpenClaw, OpenCode, Aider, Droid, Trae, Hermes
+   .hermes.md                          → Hermes (symlink → AGENTS.md)"
 echo "   .cursor/rules/logseq-wiki.mdc       → Cursor (alwaysApply)"
 echo "   .windsurf/rules/logseq-wiki.md      → Windsurf (always-on)"
 echo "   .kiro/steering/logseq-wiki.md       → Kiro (inclusion: always)"
