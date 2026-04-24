@@ -14,9 +14,9 @@ You are enforcing consistent tagging across the Logseq wiki by normalizing tags 
 
 **REQUIRED:** Invoke `llm-wiki` skill first for Logseq syntax and file format rules.
 
-1. Read `~/.logseq-wiki/config` to get `WIKI_PATH` (usually `./wiki`)
-2. Read `$WIKI_PATH/_meta/taxonomy.md` — this is the canonical tag list
-3. Read `index.md` to understand the wiki's scope
+1. Read `~/.logseq-wiki/config` to get `LOGSEQ_VAULT_PATH`
+2. Read `$LOGSEQ_VAULT_PATH/wiki/_meta/taxonomy.md` — this is the canonical tag list
+3. Read `$LOGSEQ_VAULT_PATH/wiki/_master-index.md` to understand the wiki's scope
 
 ## The Taxonomy File
 
