@@ -63,7 +63,7 @@ updated:: YYYY-MM-DD
 
 ### Liens
 - `[[Nom de page]]` — lien vers une page du vault
-- `[[wiki/kubris/kubernetes-3488]]` — lien vers une page wiki (namespace)
+- `[[wiki/devops/kubernetes-basics]]` — lien vers une page wiki (namespace)
 - Les assets sont référencés via `![](../assets/fichier.png)`
 
 ### Format fichiers
@@ -134,6 +134,15 @@ updated:: YYYY-MM-DD
 ```
 
 **Calcul du hash :** `shasum -a 256 <fichier> | awk '{print $1}'`
+
+**Stats globales — recalcul obligatoire (jamais d'incrémentation) :**
+- `total_sources_ingested` = `len(sources)` — nombre de clés dans l'objet `sources{}`
+- `total_pages_created` = nombre de fichiers `.md` dans `wiki/` en excluant :
+  `_master-index.md`, `_log.md`, tout fichier dans `wiki/_meta/`, tout fichier dans
+  `wiki/_archive/`
+
+Ces valeurs sont toujours recalculées depuis les données réelles à chaque mise à jour du
+manifest, jamais incrémentées.
 
 ## Structure `_log.md`
 

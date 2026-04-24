@@ -17,8 +17,8 @@ Construire une map : titre → chemin de fichier.
 
 Exemple :
 ```
-"Kubernetes 3488 - Gestion des clés JSON" → "wiki/kubris/kubernetes-3488.md"
-"Capsule" → "wiki/kubris/capsule.md"
+"Kubernetes — Gestion des secrets" → "wiki/devops/kubernetes-secrets.md"
+"Docker Compose" → "wiki/devops/docker-compose.md"
 ```
 
 ## Étape 2 : Détecter les mentions sans lien
@@ -41,8 +41,8 @@ Pour chaque mention détectée :
 
 Exemple :
 ```
-Avant : "...la gestion de Capsule implique..."
-Après : "...la gestion de [[wiki/kubris/capsule|Capsule]] implique..."
+Avant : "...la gestion de Docker Compose implique..."
+Après : "...la gestion de [[wiki/devops/docker-compose|Docker Compose]] implique..."
 ```
 
 ## Étape 4 : Vérifier la bidirectionnalité

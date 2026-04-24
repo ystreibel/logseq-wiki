@@ -11,11 +11,20 @@ description: >
 
 **REQUIRED:** Invoke llm-wiki skill first for Logseq syntax and file format rules.
 
+**Règle paths :** Tous les chemins lus depuis LOGSEQ_VAULT_PATH doivent être quotés dans les
+commandes shell (ex: `"$LOGSEQ_VAULT_PATH/pages/"`) pour supporter les espaces et caractères
+spéciaux (OneDrive, chemins Windows via WSL).
+
 ## Avant de commencer
 
 1. Lire `wiki/_manifest.json` — si absent, dire à l'utilisateur de lancer `wiki-setup` d'abord
 2. Lire `wiki/_master-index.md` pour connaître les thèmes existants
-3. Déterminer le mode :
+3. **Lire `wiki/_meta/exclusions.yml`** si présent — mémoriser les exclusions à appliquer :
+   - `files:` — chemins exacts à exclure
+   - `patterns:` — globs à exclure (ex: `pages/entretiens_*.md`)
+   - `tags:` — exclure toute source dont le frontmatter contient un de ces tags
+   - `themes:` — ne pas créer de pages wiki pour ces thèmes
+4. Déterminer le mode :
    - **Mode append (défaut)** : skip les sources dont le hash SHA-256 n'a pas changé
    - **Mode full** : si l'utilisateur dit "tout réingérer" ou "force ingest"
 
@@ -28,6 +37,9 @@ Lister toutes les sources :
 - Assets référencés : pour chaque `.md` déjà listé, extraire les refs `![](../assets/...)` et
   `[texte](../assets/...)` pour identifier les assets à ingérer
 
+Appliquer les exclusions de `exclusions.yml` : retirer les sources correspondant aux `files:`,
+`patterns:`, et celles dont les tags frontmatter recoupent `tags:`.
+
 ## Étape 2 : Filtrage (mode append)
 
 Pour chaque source :
@@ -38,6 +50,16 @@ Pour chaque source :
 
 Annoncer à l'utilisateur : "X sources à ingérer, Y skippées (inchangées)"
 
+## Gros volumes
+
+Si le vault contient plus de 100 fichiers journaux, traiter par batch annuel :
+1. Ingérer d'abord `pages/*.md` en une seule passe (toujours prioritaire)
+2. Puis ingérer les journaux par année : `journals/2023_*.md`, puis `journals/2024_*.md`, etc.
+3. Annoncer avant chaque batch : "Batch [YYYY] — ~N fichiers, estimation ~M minutes"
+   (estimation indicative : ~1 min pour 10 journaux simples)
+
+Cette approche évite les timeouts et permet de reprendre en cas d'interruption.
+
 ## Étape 3 : Distillation source par source
 
 Pour chaque source à ingérer :
@@ -45,7 +67,8 @@ Pour chaque source à ingérer :
 ### Pour une page `pages/*.md`
 1. Lire le fichier complet
 2. Identifier le ou les thèmes couverts (sections `##`, projets nommés)
-3. Pour chaque thème/sujet identifié, créer ou mettre à jour une page wiki :
+3. Vérifier que les thèmes identifiés ne sont pas dans `exclusions.yml` → `themes:`
+4. Pour chaque thème/sujet identifié, créer ou mettre à jour une page wiki :
    - **Ce qui vaut la peine d'être distillé :**
      - Décisions techniques et leur justification
      - Patterns et concepts réutilisables
@@ -87,7 +110,16 @@ Pour chaque source ingérée, ajouter ou mettre à jour dans `_manifest.json` :
   "pages_updated": ["wiki/thème/page2"]
 }
 ```
-Mettre à jour `stats.total_sources_ingested` et `stats.total_pages_created`.
+
+Mettre à jour les stats globales en recalculant depuis les données réelles (pas par incrémentation) :
+```json
+"stats": {
+  "total_sources_ingested": <len(sources) — nombre de clés dans sources{}>,
+  "total_pages_created": <nombre de fichiers .md dans wiki/ excluant _master-index.md,
+                          _log.md, et tous fichiers dans wiki/_meta/ et wiki/_archive/>
+}
+```
+
 Mettre à jour `last_ingest` avec l'heure actuelle.
 
 ## Étape 6 : Logger et confirmer

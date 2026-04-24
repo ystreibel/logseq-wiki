@@ -10,6 +10,34 @@ description: >
 
 **REQUIRED:** Invoke llm-wiki skill first for Logseq syntax and file format rules.
 
+**Règle paths :** Tous les chemins lus depuis LOGSEQ_VAULT_PATH doivent être quotés dans les
+commandes shell (ex: `"$LOGSEQ_VAULT_PATH/pages/"`) pour supporter les espaces et caractères
+spéciaux (OneDrive, chemins Windows via WSL).
+
+## Étape 0 : Analyse préliminaire (dry-run)
+
+Avant toute écriture, effectuer une analyse complète et demander confirmation.
+
+1. **Lister les fichiers `pages/*.md`** (exclure `contents.md`, `excalidraw-*.md`, `hls__*.md`)
+2. **Détecter les thèmes candidats** : identifier les sections `##` dans les pages pour extraire
+   les thèmes/projets principaux
+3. **Détecter les collisions** : vérifier si un nom de thème candidat correspond déjà à un
+   fichier existant dans `pages/` (ex : thème "capsule" ET `pages/capsule.md` → conflit). Lister
+   toutes les collisions détectées.
+4. **Lire `wiki/_meta/exclusions.yml`** si présent — appliquer les exclusions (thèmes listés
+   dans `themes:` sont à exclure de la détection)
+5. **Afficher le rapport dry-run :**
+   ```
+   Thèmes détectés     : [liste]
+   Collisions          : [liste ou "aucune"]
+   Exclusions actives  : [liste ou "aucune"]
+   Fichiers à créer    : wiki/_master-index.md, wiki/_log.md, wiki/_manifest.json,
+                         wiki/_meta/taxonomy.md, wiki/_meta/exclusions.yml,
+                         wiki/[thème]/_index.md (×N)
+   ```
+6. **Demander confirmation** : "Confirmes-tu la création de ces fichiers ?" — ne pas continuer
+   sans réponse affirmative.
+
 ## Étape 1 : Vérifier l'état actuel
 
 - Lire `wiki/_manifest.json` si il existe
@@ -23,7 +51,9 @@ Lire tous les fichiers `pages/*.md` (sauf `contents.md`, `excalidraw-*.md`, `hls
 Pour chaque fichier, identifier les thèmes/projets principaux en lisant les titres de niveau 2
 (`## `). Ce sont les candidats pour les sous-dossiers wiki.
 
-Exemple : `MON ORGANISATION.md` contient `## 🏭 U-TECH` → thèmes : kubris, capsule, packmind...
+Exclure les thèmes listés dans `wiki/_meta/exclusions.yml` (clé `themes:`) si le fichier existe.
+
+Exemple : `WORK.md` contient `## Backend Team` → thèmes : api, infra, tooling...
 
 ## Étape 3 : Créer la structure wiki/
 
@@ -104,6 +134,27 @@ updated:: [DATE]
 | wiki | Pages méta du wiki |
 | log | Fichiers de log |
 | meta | Fichiers de configuration wiki |
+```
+
+### `wiki/_meta/exclusions.yml`
+```yaml
+# Exclusions d'ingestion
+# Fichiers ou patterns à ne jamais ingérer dans le wiki
+
+files:
+  # - pages/mon-fichier-sensible.md
+
+patterns:
+  # - "pages/entretiens_*.md"
+  # - "journals/2020_*.md"
+
+tags:
+  # - visibility/pii
+  # - visibility/private
+
+themes:
+  # - rh
+  # - salaires
 ```
 
 ### Pour chaque thème détecté : `wiki/[thème]/_index.md`
