@@ -215,7 +215,7 @@ When the user wants to add a tag to the vocabulary:
 
 ## After Any Tag Operation
 
-Append to `wiki/_meta/log.md`:
+Append to `wiki/_log.md`:
 
 ```
 - [TIMESTAMP] TAG_AUDIT tags_normalized=N unknown_tags=M pages_modified=P

@@ -92,14 +92,10 @@ Report to the user: "Found X projects, Y conversations, Z memory files. Delta: A
 
 ## Step 2: Ingest Memory Files First
 
-Memory files are already structured with YAML frontmatter:
+Memory files are plain markdown with a simple header structure (Claude Code format):
 
 ```markdown
----
-name: memory-name
-description: one-line description
-type: user|feedback|project|reference
----
+# memory-name
 
 Memory content here.
 ```
@@ -197,7 +193,7 @@ Write Logseq metadata using `::` properties at the top of each page:
 
 ```markdown
 title:: My Page Title
-tags:: [[concept]], [[debugging]], [[react]]
+tags:: concept, debugging, react
 summary:: This page documents X, covering approaches to Y and Z. ^[inferred]
 provenance:: Synthesized from 3 conversations (Mar 15, Mar 18, Mar 22); one memory file
 category:: concept

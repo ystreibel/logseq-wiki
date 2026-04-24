@@ -17,7 +17,7 @@ You are ingesting arbitrary text data into a Logseq wiki. The source could be an
 
 1. Read `~/.logseq-wiki/config` to get `LOGSEQ_VAULT_PATH`
 2. Read `wiki/_manifest.json` at the vault root — check if this source has been ingested before
-3. Read `wiki/index.md` or equivalent to know what already exists
+3. Read `wiki/_master-index.md` to know what themes and pages already exist
 
 If the source path is already in `wiki/_manifest.json` and the file hasn't been modified since `ingested_at`, tell the user it's already been ingested. Ask if they want to re-ingest anyway.
 
