@@ -144,13 +144,10 @@ Do not create one wiki page per session or per MEMORY.md entry.
 
 ## Step 6: Distill into Wiki Pages (Logseq Format)
 
-Route extracted knowledge into the correct vault namespaces:
+Route extracted knowledge into the correct vault namespaces. Check `wiki/_master-index.md` for existing themes and use them — ne pas inventer de catégories fixes.
 
-- Project-specific architecture/process → `wiki/projects/<name>/`
-- General concepts → `wiki/concepts/`
-- Recurring techniques/debug playbooks → `wiki/skills/`
-- Tools/services/frameworks → `wiki/entities/`
-- Cross-session patterns → `wiki/synthesis/`
+- Project-specific knowledge → `wiki/projects/<name>/`
+- General knowledge → `wiki/<thème>/` (thème le plus approprié parmi ceux existants)
 
 For each impacted project, create/update `wiki/projects/<name>/<name>.md`.
 

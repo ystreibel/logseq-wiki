@@ -143,5 +143,5 @@ updated:: YYYY-MM-DD
 - [YYYY-MM-DDTHH:MM:SS] SETUP — initialisation du wiki
 - [YYYY-MM-DDTHH:MM:SS] INGEST — N sources, M pages créées
 - [YYYY-MM-DDTHH:MM:SS] UPDATE — N sources modifiées, M pages mises à jour
-- [YYYY-MM-DDTHH:MM:SS] REBUILD — archive vers wiki/_archive/YYYY-MM-DD/
+- [YYYY-MM-DDTHH:MM:SS] REBUILD — archive vers wiki/_archive/YYYY_MM_DD/
 ```

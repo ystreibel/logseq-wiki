@@ -174,14 +174,16 @@ Each Claude project maps to a project directory in the vault. The project direct
 
 ### Project-specific vs. global knowledge
 
-| What you found                     | Where it goes               | Example                                             |
-| ---------------------------------- | --------------------------- | --------------------------------------------------- |
-| Project architecture decisions     | `projects/<name>/concepts/` | `projects/my-project/concepts/main-architecture.md` |
-| Project-specific debugging         | `projects/<name>/skills/`   | `projects/my-project/skills/api-rate-limiting.md`   |
-| General concept the user learned   | `concepts/` (global)        | `concepts/react-server-components.md`               |
-| Recurring problem across projects  | `skills/` (global)          | `skills/debugging-hydration-errors.md`              |
-| A tool/service used                | `entities/` (global)        | `entities/vercel-functions.md`                      |
-| Patterns across many conversations | `synthesis/` (global)       | `synthesis/common-debugging-patterns.md`            |
+| What you found                     | Where it goes                        | Example                                                  |
+| ---------------------------------- | ------------------------------------ | -------------------------------------------------------- |
+| Project architecture decisions     | `wiki/projects/<name>/`              | `wiki/projects/my-project/architecture.md`               |
+| Project-specific debugging         | `wiki/projects/<name>/`              | `wiki/projects/my-project/api-rate-limiting.md`          |
+| General concept the user learned   | `wiki/<thème>/` (thème le plus proche) | `wiki/javascript/react-server-components.md`           |
+| Recurring problem across projects  | `wiki/<thème>/`                      | `wiki/debugging/hydration-errors.md`                     |
+| A tool/service used                | `wiki/<thème>/`                      | `wiki/outils/vercel-functions.md`                        |
+| Patterns across many conversations | `wiki/<thème>/`                      | `wiki/patterns/debugging-patterns.md`                    |
+
+Les thèmes (`<thème>`) sont détectés dynamiquement depuis `pages/` — ne pas inventer de catégories fixes. Utilise les thèmes qui existent déjà dans `wiki/_master-index.md`.
 
 For each project with content, create or update the project overview page at `projects/<name>/<name>.md` — **named after the project, not `_project.md`**. Logseq uses the filename as the node label in the graph view, so `_project.md` makes every project show up as `_project` in the graph. Naming it `<name>.md` gives each project a distinct, readable node name.
 
@@ -255,4 +257,4 @@ Update `wiki/_master-index.md` and `wiki/_log.md` per the standard process:
 
 ## Reference
 
-See `wiki/references/claude-data-format.md` for more details on the data structures.
+The Claude Code data structures are documented inline in this skill (Step 3). No external reference file needed.

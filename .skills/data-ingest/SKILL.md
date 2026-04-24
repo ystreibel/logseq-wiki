@@ -113,9 +113,9 @@ Before creating pages:
 
 Follow the `llm-wiki` skill's process for creating/updating pages:
 
-- Use correct category namespaces (`concepts/`, `entities/`, `skills/`, etc.)
+- Use the wiki's existing theme namespaces (check `wiki/_master-index.md` for current themes)
 - Use Logseq property syntax (e.g., `title::`, `tags::`, `sources::`)
-- Use `[[wiki/category/page-name]]` to create namespaced wikilinks to existing pages
+- Use `[[wiki/thème/page-name]]` to create namespaced wikilinks to existing pages
 - Attribute claims to their source
 - **Write a `summary::` property on every new page** (1–2 sentences, ≤200 characters) answering "what is this page about?" — this is what downstream skills read to avoid opening the page body.
 - **Apply provenance markers** per the convention in Logseq. Conversation, log, and chat data tend to be high-inference — you're often reading between the turns to extract a coherent claim. Be liberal with `^[inferred]` for synthesized patterns and with `^[ambiguous]` when speakers contradict each other or you're unsure who's right. Write a `provenance::` property block on each new/updated page.
@@ -130,7 +130,7 @@ provenance::
   - ^[inferred] Synthesized from 20+ turns of discussion
   - ^[ambiguous] GraphQL dismissed for reasons unclear
 
-This chat log from [[wiki/entities/team-name]] discusses...
+This chat log from [[wiki/équipe/team-name]] discusses...
 ```
 
 ## Step 5: Update Manifest and Special Files
@@ -143,8 +143,8 @@ This chat log from [[wiki/entities/team-name]] discusses...
   "modified_at": FILE_MTIME,
   "source_type": "data",  // or "image" for png/jpg/webp/gif sources
   "project": "project-name-or-null",
-  "pages_created": ["concepts/page.md", "entities/page.md"],
-  "pages_updated": ["skills/page.md"]
+  "pages_created": ["wiki/thème/page.md"],
+  "pages_updated": ["wiki/thème/page.md"]
 }
 ```
 

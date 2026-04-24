@@ -119,7 +119,7 @@ done
 # ~/.claude/skills gets only the two portable skills (usable from any project)
 GLOBAL_SKILL_DIR="$HOME/.claude/skills"
 mkdir -p "$GLOBAL_SKILL_DIR"
-for skill_name in "logseq-update" "logseq-query"; do
+for skill_name in "wiki-update" "wiki-query"; do
   link_path="$GLOBAL_SKILL_DIR/$skill_name"
   if [ -L "$link_path" ]; then
     rm "$link_path"
@@ -129,7 +129,7 @@ for skill_name in "logseq-update" "logseq-query"; do
   fi
   ln -s "$SKILLS_DIR/$skill_name" "$link_path"
 done
-echo "✅  Installed global skills → ~/.claude/skills/ (logseq-update, logseq-query)"
+echo "✅  Installed global skills → ~/.claude/skills/ (wiki-update, wiki-query)"
 
 # Steps 3b–3j: Install all skills for every supported agent.
 # OpenClaw discovers skills from ~/.agents/skills/ (per docs.openclaw.ai/skills);
@@ -175,7 +175,7 @@ echo "   1. Open this project in your agent"
 echo "   2. Say: \"Set up my wiki\""
 echo ""
 echo " From any other project:"
-echo "   /logseq-update    → sync knowledge into your vault"
-echo "   /logseq-query     → ask questions against your wiki"
+echo "   /wiki-update    → sync knowledge into your vault"
+echo "   /wiki-query     → ask questions against your wiki"
 echo "───────────────────────────────────────────────────"
 echo ""

@@ -92,7 +92,7 @@ When the user wants to see the current state of tags:
 ### Step 1: Scan all pages
 
 ```
-Glob: wiki/**/*.md (excluding _archives/, _meta/)
+Glob: wiki/**/*.md (excluding _archive/, _meta/)
 Extract: tags:: property from Logseq frontmatter (comma-separated values)
 ```
 
@@ -148,7 +148,7 @@ For each tag found, count how many pages use it. Flag:
 
 | Page                   | Tag Count | Tags                 |
 | ---------------------- | --------- | -------------------- |
-| `entities/jane-doe.md` | 8         | ai, ml, founder, ... |
+| `wiki/personnes/jane-doe.md` | 8    | ai, ml, founder, ... |
 ```
 
 ## Mode 2: Tag Normalization

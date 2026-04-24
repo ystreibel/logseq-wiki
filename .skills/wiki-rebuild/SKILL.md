@@ -17,7 +17,7 @@ Avant toute action, afficher :
 ```
 ⚠️ ATTENTION : Cette opération va archiver tout le wiki actuel.
 Contenu actuel : [N pages, M thèmes, dernière mise à jour le DATE]
-Archive destination : wiki/_archive/YYYY-MM-DD/
+Archive destination : wiki/_archive/YYYY_MM_DD/
 
 Veux-tu continuer ? (oui/non)
 ```
@@ -26,13 +26,13 @@ Attendre la réponse. Si non ou ambiguë : arrêter.
 
 ## Étape 1 : Archiver
 
-1. Créer `wiki/_archive/YYYY-MM-DD/` (date du jour)
-2. Déplacer tous les fichiers de `wiki/` vers `wiki/_archive/YYYY-MM-DD/`
+1. Créer `wiki/_archive/YYYY_MM_DD/` (date du jour)
+2. Déplacer tous les fichiers de `wiki/` vers `wiki/_archive/YYYY_MM_DD/`
    (sauf `wiki/_archive/` lui-même)
 
 Utiliser Bash :
 ```bash
-DATE=$(date +%Y-%m-%d)
+DATE=$(date +%Y_%m_%d)
 mkdir -p wiki/_archive/$DATE
 find wiki -mindepth 1 -not -path 'wiki/_archive' -not -path 'wiki/_archive/*' | sort -r | xargs -I{} mv {} wiki/_archive/$DATE/ 2>/dev/null || true
 ```
