@@ -17,15 +17,21 @@ If the user invokes `/logseq-history-ingest <target>` (or equivalent text comman
 | Subcommand | Route To |
 |---|---|
 | `claude` | `logseq-claude-history-ingest` |
+| `codex` | `logseq-codex-history-ingest` |
+| `hermes` | `logseq-hermes-history-ingest` |
+| `openclaw` | `logseq-openclaw-history-ingest` |
 | `auto` | infer from context using rules below |
 
 ## Routing Rules
 
-1. If the user explicitly says `claude`, route directly to `logseq-claude-history-ingest`.
+1. If the user explicitly names an agent (`claude`, `codex`, `hermes`, `openclaw`), route directly.
 2. If the user provides a path/source:
-   - `~/.claude` or Claude memory/session JSONL artifacts -> `logseq-claude-history-ingest`
+   - `~/.claude` or Claude memory/session JSONL artifacts → `logseq-claude-history-ingest`
+   - `~/.codex` or Codex rollout/session files → `logseq-codex-history-ingest`
+   - `~/.hermes` or Hermes memory/session files → `logseq-hermes-history-ingest`
+   - `~/.openclaw` or OpenClaw MEMORY.md/session files → `logseq-openclaw-history-ingest`
 3. If ambiguous, ask one short clarification:
-   - "Should I ingest `claude` history?"
+   - "Which agent history? `claude`, `codex`, `hermes`, or `openclaw`?"
 
 ## Execution Contract
 
@@ -41,4 +47,7 @@ If the user invokes `/logseq-history-ingest <target>` (or equivalent text comman
 Examples:
 
 - `/logseq-history-ingest claude`
+- `/logseq-history-ingest codex`
+- `/logseq-history-ingest hermes`
+- `/logseq-history-ingest openclaw`
 - `$logseq-history-ingest claude` (agents that use `$skill` invocation)

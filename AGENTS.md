@@ -53,8 +53,11 @@ Skills live in `.skills/<name>/SKILL.md`. Match the user's intent to the right s
 | "ingest cette data" / "importe ce log" / "process these logs" | `logseq-data-ingest` |
 | "fix mes tags" / "tag audit" / "normalise les tags" | `logseq-tag-taxonomy` |
 | "export wiki" / "export graphml" / "visualise wiki" | `logseq-export` |
-| "/logseq-history-ingest claude" / "ingest agent history" | `logseq-history-ingest` |
+| "/logseq-history-ingest claude\|codex\|hermes\|openclaw" | `logseq-history-ingest` |
 | "importe mon historique Claude" / "mine my conversations" | `logseq-claude-history-ingest` |
+| "importe mon historique Codex" / "process my Codex sessions" | `logseq-codex-history-ingest` |
+| "importe mon historique Hermes" / "process my Hermes memories" | `logseq-hermes-history-ingest` |
+| "importe mon historique OpenClaw" / "process my OpenClaw sessions" | `logseq-openclaw-history-ingest` |
 | "crée un skill" / "nouveau skill" / "create a skill" | `skill-creator` |
 
 ## Cross-Project Usage
