@@ -59,6 +59,9 @@ Skills live in `.skills/<name>/SKILL.md`. Match the user's intent to the right s
 | "importe mon historique Hermes" / "process my Hermes memories" | `hermes-history-ingest` |
 | "importe mon historique OpenClaw" / "process my OpenClaw sessions" | `openclaw-history-ingest` |
 | "crée un skill" / "nouveau skill" / "create a skill" | `skill-creator` |
+| "valide cette implémentation" / "check my output" / "is this correct?" | `impl-validator` |
+| "browse par outil" / "what did codex know about X" / "memory diff" | `memory-bridge` |
+| "/wiki-claude X" / "/wiki-codex X" / "search my claude sessions for X" | `wiki-agent` |
 
 ## Cross-Project Usage
 

@@ -53,12 +53,27 @@ Skills live in `.skills/<name>/SKILL.md`. Match the user's intent to the right s
 | "ingest cette data" / "importe ce log" / "process these logs" | `data-ingest` |
 | "fix mes tags" / "tag audit" / "normalise les tags" | `tag-taxonomy` |
 | "export wiki" / "export graphml" / "visualise wiki" | `wiki-export` |
-| "/wiki-history-ingest claude\|codex\|hermes\|openclaw" | `wiki-history-ingest` |
+| "/wiki-history-ingest claude\|codex\|hermes\|openclaw\|copilot\|pi" | `wiki-history-ingest` |
 | "importe mon historique Claude" / "mine my conversations" | `claude-history-ingest` |
 | "importe mon historique Codex" / "process my Codex sessions" | `codex-history-ingest` |
 | "importe mon historique Hermes" / "process my Hermes memories" | `hermes-history-ingest` |
 | "importe mon historique OpenClaw" / "process my OpenClaw sessions" | `openclaw-history-ingest` |
+| "importe mon historique Copilot" / "mine my Copilot sessions" / "ingest ~/.copilot" | `copilot-history-ingest` |
+| "importe mon historique Pi" / "mine my Pi sessions" / "ingest ~/.pi" | `pi-history-ingest` |
+| "qu'ai-je appris cette semaine" / "digest" / "résumé hebdomadaire" / "/wiki-digest" | `wiki-digest` |
+| "recherche X" / "deep dive sur Y" / "/wiki-research [sujet]" | `wiki-research` |
+| "/wiki-switch NOM" / "changer de vault" / "liste mes wikis" / "nouveau profil wiki" | `wiki-switch` |
+| "sauvegarde ça" / "/wiki-capture" / "capture cette conversation" | `wiki-capture` |
+| "/daily-update" / "sync du matin" / "rafraîchir l'index wiki" / "configurer le cron" | `daily-update` |
+| "colorie mon graphe" / "coloriser le graphe logseq" / "couleurs par thème" | `graph-colorize` |
+| "synthétise mon wiki" / "trouve les connexions" / "/wiki-synthesize" | `wiki-synthesize` |
+| "déduplique mon wiki" / "fusionne les doublons" / "résolution d'identité" | `wiki-dedup` |
+| "contexte compact" / "pack de contexte" / "/wiki-context-pack" | `wiki-context-pack` |
+| "révise les modifications" / "staged writes" / "/wiki-stage-commit" | `wiki-stage-commit` |
 | "crée un skill" / "nouveau skill" / "create a skill" | `skill-creator` |
+| "valide cette implémentation" / "check my output" / "is this correct?" | `impl-validator` |
+| "browse par outil" / "what did codex know about X" / "memory diff" | `memory-bridge` |
+| "/wiki-claude X" / "/wiki-codex X" / "search my claude sessions for X" | `wiki-agent` |
 
 ## Cross-Project Usage
 
