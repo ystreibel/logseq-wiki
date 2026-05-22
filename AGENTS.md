@@ -74,6 +74,7 @@ Skills live in `.skills/<name>/SKILL.md`. Match the user's intent to the right s
 | "valide cette implémentation" / "check my output" / "is this correct?" | `impl-validator` |
 | "browse par outil" / "what did codex know about X" / "memory diff" | `memory-bridge` |
 | "/wiki-claude X" / "/wiki-codex X" / "search my claude sessions for X" | `wiki-agent` |
+| "architecture wiki" / "how does the wiki pattern work" / "show me llm-wiki" | `llm-wiki` |
 
 ## Cross-Project Usage
 
