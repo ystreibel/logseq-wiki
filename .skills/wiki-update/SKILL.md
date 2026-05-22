@@ -32,13 +32,15 @@ Si aucun changement détecté : informer l'utilisateur et s'arrêter.
 
 Annoncer : "X sources modifiées, Y nouvelles, Z supprimées (signalées)"
 
-## Étape 2 : Traiter les sources modifiées et nouvelles
+Pour chaque source modifiée ou nouvelle, appliquer la même logique que wiki-ingest (Étapes 3 à 5), en mode **merge** :
+- Lire la page wiki existante avant d'écrire.
+- Intégrer les nouvelles informations sans supprimer l'existant.
+- Mettre à jour la propriété `updated::` de la page wiki.
+- Recalculer les ratios `provenance::` après intégration des faits.
+- Recalculer `base_confidence::` uniquement si la liste des sources a changé (éviter le churn git).
+- Ne pas modifier `lifecycle::` (préservé pour l'humain).
+- Si la page est nouvelle, initialiser `lifecycle:: draft`, `lifecycle_changed:: [DATE]`, `tier:: supporting`.
 
-Pour chaque source modifiée ou nouvelle, appliquer la même logique que wiki-ingest
-(Étapes 3 à 5), en mode **merge** :
-- Lire la page wiki existante avant d'écrire
-- Intégrer les nouvelles informations sans supprimer l'existant
-- Mettre à jour la propriété `updated::` de la page wiki
 
 ## Étape 3 : Signaler les sources supprimées
 

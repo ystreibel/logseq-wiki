@@ -33,25 +33,67 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 SKILLS_DIR="$SCRIPT_DIR/.skills"
 
-# Symlink every skill in SKILLS_DIR into TARGET_DIR.
-# Skips real directories to avoid data loss; updates stale symlinks.
+# install_skills <target_dir> <label> [relative|absolute] [skill-subset...]
+# "relative" requires target_dir under $SCRIPT_DIR and emits ../-prefixed
+# targets matching the committed symlinks. Extra args restrict the install
+# to a named subset of skills (e.g. portable-only into ~/.claude/skills).
 install_skills() {
   local target_dir="$1"
   local label="$2"
+  local mode="${3:-absolute}"
+  shift 3 || shift $#
+  local subset=("$@")  # empty = install all
+
+  case "$mode" in
+    relative|absolute) ;;
+    *) echo "install_skills: bad mode '$mode' (want relative|absolute)" >&2; exit 1 ;;
+  esac
+
+  local rel_prefix=""
+  if [ "$mode" = "relative" ]; then
+    # Strip $SCRIPT_DIR prefix; if it doesn't match, target is outside the
+    # repo and "relative" isn't meaningful — bail rather than emit a wrong link.
+    local rel="${target_dir#"$SCRIPT_DIR"/}"
+    if [ "$rel" = "$target_dir" ]; then
+      echo "install_skills: relative mode requires target under \$SCRIPT_DIR ($target_dir)" >&2
+      exit 1
+    fi
+    # One ../ per path component in $rel; e.g. .claude/skills → 2 components → ../../
+    local slashes="${rel//[^\/]/}"
+    local depth=$(( ${#slashes} + 1 )) i
+    for (( i=0; i<depth; i++ )); do rel_prefix="../$rel_prefix"; done
+  fi
+
   mkdir -p "$target_dir"
   for skill in "$SKILLS_DIR"/*/; do
-    local skill_name link_path
+    local skill_name link_path link_target
     skill_name="$(basename "$skill")"
+    if [ ${#subset[@]} -gt 0 ]; then
+      local match=0 want
+      for want in "${subset[@]}"; do [ "$want" = "$skill_name" ] && match=1 && break; done
+      [ "$match" = 1 ] || continue
+    fi
     link_path="$target_dir/$skill_name"
+    if [ "$mode" = "relative" ]; then
+      link_target="${rel_prefix}.skills/$skill_name"
+    else
+      link_target="${skill%/}"
+    fi
     if [ -L "$link_path" ]; then
       rm "$link_path"
     elif [ -d "$link_path" ]; then
       echo "⚠️   $link_path is a real directory, skipping symlink"
       continue
+    elif [ -f "$link_path" ]; then
+      # Git on Windows without core.symlinks=true writes committed symlinks
+      # as regular files containing the target path. Replace with a real symlink.
+      rm "$link_path"
     fi
-    ln -s "${skill%/}" "$link_path"
+    ln -s "$link_target" "$link_path"
+    # Sanity check: every skill ships a SKILL.md, so a working symlink resolves it.
+    [ -e "$link_path/SKILL.md" ] || { echo "install_skills: broken link $link_path → $link_target" >&2; exit 1; }
   done
-  echo "✅  Installed global skills → $label"
+  echo "✅  Installed skills → $label"
 }
 
 echo ""
@@ -122,28 +164,17 @@ AGENT_DIRS=(
   ".cursor/skills"
   ".windsurf/skills"
   ".agents/skills"
+  ".pi/skills"          # Pi coding agent
   ".kiro/skills"        # Kiro IDE/CLI (paired with .kiro/steering/logseq-wiki.md)
 )
 
 for agent_dir in "${AGENT_DIRS[@]}"; do
-  install_skills "$SCRIPT_DIR/$agent_dir" "$agent_dir/"
+  install_skills "$SCRIPT_DIR/$agent_dir" "$agent_dir/" relative
 done
 
 # ── Step 3: Install global skills ────────────────────────────
 # ~/.claude/skills gets only the two portable skills (usable from any project)
-GLOBAL_SKILL_DIR="$HOME/.claude/skills"
-mkdir -p "$GLOBAL_SKILL_DIR"
-for skill_name in "wiki-update" "wiki-query"; do
-  link_path="$GLOBAL_SKILL_DIR/$skill_name"
-  if [ -L "$link_path" ]; then
-    rm "$link_path"
-  elif [ -d "$link_path" ]; then
-    echo "⚠️   $link_path is a real directory, skipping symlink"
-    continue
-  fi
-  ln -s "$SKILLS_DIR/$skill_name" "$link_path"
-done
-echo "✅  Installed global skills → ~/.claude/skills/ (wiki-update, wiki-query)"
+install_skills "$HOME/.claude/skills" "~/.claude/skills/ (wiki-update, wiki-query)" absolute wiki-update wiki-query
 
 # Steps 3b–3j: Install all skills for every supported agent.
 # OpenClaw discovers skills from ~/.agents/skills/ (per docs.openclaw.ai/skills);
@@ -159,6 +190,7 @@ install_skills "$HOME/.copilot/skills"            "~/.copilot/skills/ (GitHub Co
 install_skills "$HOME/.trae/skills"               "~/.trae/skills/ (Trae)"
 install_skills "$HOME/.trae-cn/skills"            "~/.trae-cn/skills/ (Trae CN)"
 install_skills "$HOME/.kiro/skills"               "~/.kiro/skills/ (Kiro CLI)"
+install_skills "$HOME/.pi/agent/skills"           "~/.pi/agent/skills/ (Pi)"
 install_skills "$HOME/.agents/skills"             "~/.agents/skills/ (OpenCode, Aider, Droid, generic)"
 
 # ── Step 4: Summary ──────────────────────────────────────────
@@ -171,13 +203,13 @@ echo ""
 echo " Skills found:    $SKILL_COUNT"
 echo " Agents ready:    Claude Code, Cursor, Windsurf, Gemini CLI, Antigravity,"
 echo "                  Codex, Hermes, OpenClaw, OpenCode, Aider, Factory Droid,"
-echo "                  Trae, Trae CN, Kiro, GitHub Copilot (CLI + VS Code Chat)"
+echo "                  Trae, Trae CN, Kiro, Pi, GitHub Copilot (CLI + VS Code Chat)"
 echo ""
 echo " Bootstrap files:"
 echo "   CLAUDE.md                           → Claude Code"
 echo "   GEMINI.md                           → Gemini / Antigravity"
-echo "   AGENTS.md                           → Codex, OpenClaw, OpenCode, Aider, Droid, Trae, Hermes
-   .hermes.md                          → Hermes (symlink → AGENTS.md)"
+echo "   AGENTS.md                           → Codex, OpenClaw, OpenCode, Aider, Droid, Trae, Hermes, Pi"
+echo "   .hermes.md                          → Hermes (symlink → AGENTS.md)"
 echo "   .cursor/rules/logseq-wiki.mdc       → Cursor (alwaysApply)"
 echo "   .windsurf/rules/logseq-wiki.md      → Windsurf (always-on)"
 echo "   .kiro/steering/logseq-wiki.md       → Kiro (inclusion: always)"

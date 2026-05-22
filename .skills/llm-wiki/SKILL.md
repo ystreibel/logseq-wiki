@@ -39,15 +39,21 @@ de tous les fichiers d'un dossier sans Grep préalable sauf si explicitement né
 
 ## Syntaxe Logseq
 
-### Propriétés de page (toujours en début de fichier)
+### Propriétés de page (toujours en début de fichier, sans séparateurs ---)
 ```
 title:: Nom de la page
 category:: nom-du-thème
 tags:: tag1, tag2, tag3
 sources:: [[Page Source]], [[journals/2026_04_01]]
 summary:: Résumé en une phrase (≤200 caractères)
-created:: YYYY-MM-DD
-updated:: YYYY-MM-DD
+provenance:: extracted: 0.72, inferred: 0.25, ambiguous: 0.03
+base_confidence:: 0.65
+lifecycle:: draft
+lifecycle_changed:: 2026-05-22
+tier:: supporting
+created:: 2026-05-22
+updated:: 2026-05-22
+relationships:: [[wiki/concepts/related-concept]] (extends), [[wiki/entities/related-entity]] (uses)
 ```
 
 ### Blocs
@@ -78,6 +84,67 @@ CLOCK: [2026-03-05 Thu 09:58:29]--[2026-03-09 Mon 16:23:39] =>  102:25:10
 :END:
 ```
 
+## Importance Tiering (`tier::`)
+
+La propriété `tier::` contrôle la priorité de mise à jour lors de l'ingestion et de recherche lors des requêtes :
+- **`core`** : Pages centrales à forte connectivité (≥5 liens entrants ou ponts structurels). Toujours mises à jour, même si la source n'est que marginalement reliée. Prioritaires en recherche.
+- **`supporting`** (défaut) : Pages standard avec connectivité modérée. Mises à jour si la source apporte de nouveaux faits.
+- **`peripheral`** : Faible connectivité (≤1 lien entrant, pas de mise à jour depuis 90+ jours). Ignorées ou skippées si le budget de jetons contextuels est serré.
+
+## Confiance et Cycle de Vie (`base_confidence::`, `lifecycle::`)
+
+Chaque page intègre des signaux de confiance et de cycle de vie.
+
+### base_confidence::
+Calculé automatiquement lors de l'écriture :
+`base_confidence = source_count_score * 0.5 + source_quality_score * 0.5`
+- `source_count_score = min(distinct_source_ids / 3, 1.0)`
+- `source_quality_score = avg(qualité de chaque source distincte)`
+
+Qualité des sources :
+- `paper` (arXiv, conf) : 1.0
+- `official` (docs constructeurs, .gov) : 0.9
+- `documentation` (docs tierces de qualité) : 0.85
+- `book` : 0.8
+- `repository` (READMEs, codebases) : 0.75
+- `blog` : 0.55
+- `session_transcript` : 0.5
+- `forum` (StackOverflow, HN, Reddit) : 0.4
+- `unknown` : 0.4
+- `llm_generated` (auto-réflexions LLM) : 0.3
+
+### lifecycle::
+Cycle de vie de la page :
+- **`draft`** : État initial écrit par l'agent.
+- **`reviewed`** : Validé par un humain.
+- **`verified`** : Fortement validé (non dégradé par le temps).
+- **`disputed`** : Contradiction ou doute signalé par l'humain ou un lint.
+- **`archived`** : Obsolète. Si archivé, peut inclure `superseded_by:: [[wiki/concepts/nouvelle-page]]`.
+
+## Relations Typées (`relationships::`)
+
+Permet d'ajouter des liens sémantiques orientés entre les concepts :
+`relationships:: [[wiki/concepts/transformer-architecture]] (extends), [[wiki/concepts/lstm]] (contradicts)`
+
+Types autorisés :
+- `extends` : Construit ou généralise la cible.
+- `implements` : Réalisation concrète de la cible.
+- `contradicts` : Conflit direct ou réfutation de la cible.
+- `derived_from` : Basé sur / adapté de la cible.
+- `uses` : Dépendance technique.
+- `replaces` : Remplace ou rend obsolète la cible.
+- `related_to` : Lien simple, valeur par défaut.
+
+## Provenance des Allégations (`provenance::`)
+
+Sur chaque bloc de la page, des annotations permettent de tracer la provenance :
+- Aucun marqueur : Fait extrait directement de la source (Extracted).
+- **`^[inferred]`** : Déduction, extrapolation ou synthèse par l'LLM.
+- **`^[ambiguous]`** : Sources contradictoires ou douteuses.
+
+La propriété de page résume les ratios :
+`provenance:: extracted: 0.70, inferred: 0.20, ambiguous: 0.10`
+
 ## Format des pages wiki
 
 Chaque page wiki respecte ce format :
@@ -88,8 +155,14 @@ category:: [thème]
 tags:: [tag1, tag2]
 sources:: [[Source1]], [[Source2]]
 summary:: [1 phrase ≤200 chars]
+provenance:: extracted: 1.00, inferred: 0.00, ambiguous: 0.00
+base_confidence:: 0.65
+lifecycle:: draft
+lifecycle_changed:: YYYY-MM-DD
+tier:: supporting
 created:: YYYY-MM-DD
 updated:: YYYY-MM-DD
+relationships:: [[wiki/[thème]/[autre-page]]] (related_to)
 
 # [Titre]
 
