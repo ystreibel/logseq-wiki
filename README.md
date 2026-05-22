@@ -38,23 +38,38 @@ Everything lives in `.skills/`. Each skill is a markdown file the agent reads wh
 | ---------------------------- | ------------------------------------------------------------------------ | -------------------------------------------------- |
 | `wiki-setup`               | Initialize vault structure                                               | `/wiki-setup`                                    |
 | `wiki-ingest`              | Distill documents into wiki pages                                        | `/wiki-ingest`                                   |
-| `ingest-url`          | Ingest a URL into the wiki                                               | `/ingest-url`                               |
-| `wiki-history-ingest`      | Unified history router (`claude`, `codex`, `hermes`, `openclaw`)         | `/wiki-history-ingest <agent>`                   |
-| `claude-history-ingest` | Mine your `~/.claude` conversations and memories                       | `/claude-history-ingest`                    |
-| `codex-history-ingest` | Mine your `~/.codex` sessions and rollouts                              | `/codex-history-ingest`                     |
-| `hermes-history-ingest` | Mine your `~/.hermes` memories and sessions                            | `/hermes-history-ingest`                    |
-| `openclaw-history-ingest` | Mine your `~/.openclaw` MEMORY.md and sessions                       | `/openclaw-history-ingest`                  |
-| `data-ingest`         | Ingest any text — chat exports, logs, transcripts                        | `/data-ingest`                              |
-| `wiki-status`              | Show what's ingested, what's pending, the delta                          | `/wiki-status`                                   |
+| `ingest-url`               | Ingest a URL into the wiki                                               | `/ingest-url`                                    |
+| `wiki-history-ingest`      | Unified history router (`claude`, `codex`, `hermes`, `openclaw`, `copilot`, `pi`) | `/wiki-history-ingest <agent>`          |
+| `claude-history-ingest`    | Mine your `~/.claude` conversations and memories                         | `/claude-history-ingest`                         |
+| `codex-history-ingest`     | Mine your `~/.codex` sessions and rollouts                               | `/codex-history-ingest`                          |
+| `hermes-history-ingest`    | Mine your `~/.hermes` memories and sessions                              | `/hermes-history-ingest`                         |
+| `openclaw-history-ingest`  | Mine your `~/.openclaw` MEMORY.md and sessions                           | `/openclaw-history-ingest`                       |
+| `copilot-history-ingest`   | Mine your Copilot session transcripts and checkpoints                    | `/copilot-history-ingest`                        |
+| `pi-history-ingest`        | Mine your Pi agent sessions                                              | `/pi-history-ingest`                             |
+| `wiki-agent`               | Targeted search + ingest from a specific agent's history by topic        | `/wiki-claude X` `/wiki-codex X` etc.            |
+| `data-ingest`              | Ingest any text — chat exports, logs, transcripts                        | `/data-ingest`                                   |
+| `wiki-status`              | Show what's ingested, what's pending, the delta + token footprint        | `/wiki-status`                                   |
 | `wiki-rebuild`             | Archive, rebuild from scratch, or restore                                | `/wiki-rebuild`                                  |
-| `wiki-query`               | Answer questions from the wiki                                           | `/wiki-query`                                    |
-| `wiki-lint`                | Find broken links, orphans, contradictions                               | `/wiki-lint`                                     |
-| `cross-linker`        | Auto-discover and insert missing page links                              | `/cross-linker`                             |
-| `tag-taxonomy`        | Enforce consistent tag vocabulary across pages                           | `/tag-taxonomy`                             |
-| `llm-wiki`            | The core pattern and architecture reference                              | `/llm-wiki`                                 |
+| `wiki-query`               | Answer questions from the wiki with lifecycle-aware citations            | `/wiki-query`                                    |
+| `wiki-lint`                | Find broken links, orphans, contradictions — or fix them (`--consolidate`) | `/wiki-lint`                                  |
+| `wiki-dedup`               | Identity resolution and page-level deduplication                         | `/wiki-dedup`                                    |
+| `wiki-synthesize`          | Generate cross-cutting synthesis pages from related topics               | `/wiki-synthesize`                               |
+| `wiki-research`            | Deep-dive research on a topic using external sources                     | `/wiki-research`                                 |
+| `wiki-digest`              | Generate a periodic knowledge newsletter from recent wiki activity       | `/wiki-digest`                                   |
+| `wiki-capture`             | Quick-capture current session/conversation into the wiki                 | `/wiki-capture`                                  |
+| `wiki-switch`              | Switch between multiple vault profiles                                   | `/wiki-switch`                                   |
+| `wiki-context-pack`        | Produce a token-bounded context pack for downstream agents               | `/wiki-context-pack`                             |
+| `wiki-stage-commit`        | Review and promote staged pages to the live wiki                         | `/wiki-stage-commit`                             |
+| `cross-linker`             | Auto-discover and insert missing namespace links                          | `/cross-linker`                                  |
+| `tag-taxonomy`             | Enforce consistent tag vocabulary across pages                           | `/tag-taxonomy`                                  |
+| `graph-colorize`           | Colorize Logseq graph nodes by tag, category, or visibility              | `/graph-colorize`                                |
+| `daily-update`             | Morning sync — refresh index, check staleness, schedule recurring tasks  | `/daily-update`                                  |
+| `memory-bridge`            | Browse wiki knowledge by source agent; diff cross-tool blind spots       | `/memory-bridge`                                 |
+| `impl-validator`           | Quality subagent — verify an implementation matches its stated goal      | `/impl-validator`                                |
+| `llm-wiki`                 | The core pattern and architecture reference                              | `/llm-wiki`                                      |
 | `wiki-update`              | Sync current project's knowledge into the vault                          | `/wiki-update`                                   |
 | `wiki-export`              | Export vault graph to JSON, GraphML, Neo4j, HTML                         | `/wiki-export`                                   |
-| `skill-creator`              | Create new skills                                                        | `/skill-creator`                                   |
+| `skill-creator`            | Create new skills to extend the framework                                | `/skill-creator`                                 |
 
 > **Note:** Slash commands (`/skill-name`) work in Claude Code, Cursor, and Windsurf. In other agents, just describe what you want and the agent will find the right skill.
 
@@ -153,6 +168,8 @@ The `wiki/` prefix makes it clear which pages were generated by this framework v
 | Codex history | `codex-history-ingest` | `~/.codex/` — rollout JSONL, session index |
 | Hermes history | `hermes-history-ingest` | `~/.hermes/` — memories, session transcripts |
 | OpenClaw history | `openclaw-history-ingest` | `~/.openclaw/` — MEMORY.md, daily notes, sessions |
+| Copilot history | `copilot-history-ingest` | `~/.copilot/` — session transcripts, checkpoints |
+| Pi history | `pi-history-ingest` | `~/.pi/agent/sessions/` — structured JSONL sessions |
 | ChatGPT exports | `data-ingest` | `conversations.json` from ChatGPT export |
 | Slack / Discord logs | `data-ingest` | Channel export JSON files |
 | Meeting transcripts | `data-ingest` | Any text transcript |
