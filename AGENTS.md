@@ -47,12 +47,16 @@ Skills live in `.skills/<name>/SKILL.md`. Match the user's intent to the right s
 | "statut" / "tableau de bord wiki" / "what's the status" | `wiki-status` |
 | "vérifie mon wiki" / "lint" / "liens cassés" / "wiki health" | `wiki-lint` |
 | "qu'est-ce que X" / "trouve" / "que sais-je sur" / any question | `wiki-query` |
+| "fais-moi un briefing sur" / "un exposé complet sur" / "brief me on X" / "narrate" | `wiki-narrate` |
 | "reparts de zéro" / "rebuild" / "archive et reconstruit" | `wiki-rebuild` |
 | "tisse les liens" / "cross-link" / "connecte mon wiki" | `cross-linker` |
 | "/ingest-url <url>" / "add this URL to the wiki" | `ingest-url` |
+| "/ingest-video <url>" / "add this YouTube video" / "ingest this talk" | `ingest-video` |
 | "ingest cette data" / "importe ce log" / "process these logs" | `data-ingest` |
 | "fix mes tags" / "tag audit" / "normalise les tags" | `tag-taxonomy` |
 | "export wiki" / "export graphml" / "visualise wiki" | `wiki-export` |
+| "import wiki" / "import graph.json" / "load this markdown bundle" | `wiki-import` |
+| "make a skill from my wiki" / "turn these notes into a skill" | `vault-skill-factory` |
 | "/wiki-history-ingest claude\|codex\|hermes\|openclaw\|copilot\|pi" | `wiki-history-ingest` |
 | "importe mon historique Claude" / "mine my conversations" | `claude-history-ingest` |
 | "importe mon historique Codex" / "process my Codex sessions" | `codex-history-ingest` |
