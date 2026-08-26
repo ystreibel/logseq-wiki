@@ -58,6 +58,12 @@ Also decide the **mode**:
 
 ### Step 2: Index Pass (cheap)
 
+**First, extract clean search terms from the question:**
+- Strip trailing punctuation glued to a word — "que sais-je sur mise ?" → term `mise`, never `mise?` (which matches nothing)
+- Drop interrogatives and stop-words (que, quoi, sur, le, la, what, about…)
+- Grep **case-insensitively** (`-i`); if a term has accents, also try the unaccented variant (vaults in French: "déploiement" / "deploiement")
+- For a concept, grep the stem rather than the inflected form ("certif" catches "certification", "certifications")
+
 Build a candidate set *without opening any page bodies*:
 
 - You've already read `_master-index.md` above — use it as the first filter. It lists every page with a one-line description and tags.

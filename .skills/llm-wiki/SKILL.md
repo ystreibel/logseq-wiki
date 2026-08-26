@@ -61,11 +61,15 @@ relationships:: [[wiki/concepts/related-concept]] (extends), [[wiki/entities/rel
 - L'indentation (tabulation) crée des sous-blocs
 - `collapsed:: true` sur un bloc le replie dans l'UI
 
-### Workflow (config `:preferred-workflow :now`)
-- `NOW` — tâche en cours
-- `LATER` — tâche planifiée
-- `DONE` — tâche terminée
-- **Ne jamais utiliser TODO/DOING** — ce vault utilise NOW/LATER/DONE
+### Workflow (task markers) — detect, don't assume
+
+Logseq has two task-marker styles. **Detect which the vault uses before reading or writing markers** —
+read `:preferred-workflow` in `logseq/config.edn`, or grep the vault for actual markers:
+- `:preferred-workflow :now` → **NOW** (in progress) / **LATER** (planned) / **DONE**
+- `:preferred-workflow :todo` → **TODO** (to do) / **DOING** (in progress) / **LATER** / **DONE**
+
+Preserve the vault's existing markers when ingesting — never convert one style into the other.
+When detection is unclear, grep for which markers actually dominate the vault and follow that.
 
 ### Liens
 - `[[Nom de page]]` — lien vers une page du vault
