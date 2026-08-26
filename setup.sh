@@ -173,8 +173,9 @@ for agent_dir in "${AGENT_DIRS[@]}"; do
 done
 
 # ── Step 3: Install global skills ────────────────────────────
-# ~/.claude/skills gets only the two portable skills (usable from any project)
-install_skills "$HOME/.claude/skills" "~/.claude/skills/ (wiki-update, wiki-query)" absolute wiki-update wiki-query
+# ~/.claude/skills gets only the portable skills (usable from any project),
+# matching obsidian-wiki's portable set
+install_skills "$HOME/.claude/skills" "~/.claude/skills/ (wiki-update, wiki-query, wiki-context-pack)" absolute wiki-update wiki-query wiki-context-pack
 
 # Steps 3b–3j: Install all skills for every supported agent.
 # OpenClaw discovers skills from ~/.agents/skills/ (per docs.openclaw.ai/skills);
