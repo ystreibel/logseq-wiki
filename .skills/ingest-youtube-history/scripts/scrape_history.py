@@ -65,12 +65,18 @@ def main():
         const date=h?h.textContent.trim():'';
         sec.querySelectorAll('yt-lockup-view-model').forEach(v=>{
           const a=v.querySelector('a[href*="/watch?v="]');
-          const chan=v.querySelector('.yt-content-metadata-view-model__metadata-text, yt-content-metadata-view-model a');
           if(a&&a.href){
             const vid=(a.href.match(/[?&]v=([^&]+)/)||[])[1];
+            // title: h3 is the reliable source (headless-safe); aria-label/text often = thumbnail duration
+            const h3=v.querySelector('h3');
+            const titleLink=v.querySelector('a[href*="/watch?v="][aria-label], a#video-title');
+            const title=(h3?h3.textContent:'') || (titleLink?titleLink.getAttribute('aria-label'):'') || '';
+            // channel = first segment of the metadata line ("Channel • N vues")
+            const meta=v.querySelector('yt-content-metadata-view-model');
+            let channel='';
+            if(meta){ channel=(meta.innerText.split(/[•\n]/)[0]||'').trim(); }
             out.push({date, vid, url:'https://www.youtube.com/watch?v='+vid,
-              title:(a.getAttribute('aria-label')||a.textContent||'').trim(),
-              channel:chan?chan.textContent.trim():''});
+              title:title.trim(), channel});
           }
         });
       });

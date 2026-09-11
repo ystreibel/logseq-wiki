@@ -30,10 +30,14 @@ Parameters: `--theme "<free text>"` (e.g. `tech`, `maker`, `UTMB`, `home studio`
    `curl -s http://localhost:9222/json/version`. If not, tell the user to run:
    ```
    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
-     --remote-debugging-port=9222 "--remote-allow-origins=*" \
+     --headless=new --remote-debugging-port=9222 "--remote-allow-origins=*" \
+     --window-size=1920,1080 \
      --user-data-dir="$HOME/.logseq-wiki/chrome-debug" >/dev/null 2>&1 &
    ```
-   and sign in to YouTube once in that window (session persists in that dedicated profile).
+   `--window-size=1920,1080` is **required** in headless — a small window triggers YouTube's mobile
+   layout and breaks title/channel extraction. To sign in the first time, launch **without**
+   `--headless=new` (a visible window), sign in to YouTube once, close it; the session persists in
+   the dedicated profile and later headless runs reuse it.
 3. **NotebookLM CLI authenticated** — `nlm notebook list` should return JSON. If it errors, the
    user runs `nlm login` (interactive; it holds the terminal until the browser flow completes).
 4. `pip install websocket-client` if the scraper reports it missing.
