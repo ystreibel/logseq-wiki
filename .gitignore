@@ -1,3 +1,4 @@
 .env
 *.wav
 .DS_Store
+.vscode/

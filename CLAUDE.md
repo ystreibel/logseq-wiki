@@ -52,6 +52,7 @@ Skills live in `.skills/<name>/SKILL.md`. Match the user's intent to the right s
 | "tisse les liens" / "cross-link" / "connecte mon wiki" | `cross-linker` |
 | "/ingest-url <url>" / "add this URL to the wiki" | `ingest-url` |
 | "/ingest-video <url>" / "add this YouTube video" / "ingest this talk" | `ingest-video` |
+| "ingère mes vidéos YouTube de la semaine" / "mon historique YouTube" / "les vidéos <thème> que j'ai regardées" | `ingest-youtube-history` |
 | "ingest cette data" / "importe ce log" / "process these logs" | `data-ingest` |
 | "fix mes tags" / "tag audit" / "normalise les tags" | `tag-taxonomy` |
 | "export wiki" / "export graphml" / "visualise wiki" | `wiki-export` |

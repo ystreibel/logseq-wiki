@@ -40,6 +40,7 @@ Everything lives in `.skills/`. Each skill is a markdown file the agent reads wh
 | `wiki-ingest`              | Distill documents into wiki pages                                        | `/wiki-ingest`                                   |
 | `ingest-url`               | Ingest a URL into the wiki                                               | `/ingest-url`                                    |
 | `ingest-video`             | Ingest a YouTube video's transcript into the wiki                        | `/ingest-video`                                  |
+| `ingest-youtube-history`   | Ingest watched videos from YouTube history, by theme + time window       | `/ingest-youtube-history`                        |
 | `wiki-history-ingest`      | Unified history router (`claude`, `codex`, `hermes`, `openclaw`, `copilot`, `pi`) | `/wiki-history-ingest <agent>`          |
 | `claude-history-ingest`    | Mine your `~/.claude` conversations and memories                         | `/claude-history-ingest`                         |
 | `codex-history-ingest`     | Mine your `~/.codex` sessions and rollouts                               | `/codex-history-ingest`                          |

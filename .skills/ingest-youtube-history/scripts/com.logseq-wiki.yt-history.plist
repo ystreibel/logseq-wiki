@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  launchd agent for weekly YouTube-history prep.
+  Install:  cp this to ~/Library/LaunchAgents/  then:
+    launchctl load ~/Library/LaunchAgents/com.logseq-wiki.yt-history.plist
+  Edit the ProgramArguments path below to your actual repo location before installing.
+  Runs Mondays at 09:00, prepares the short-list and notifies (semi-auto — no ingest).
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.logseq-wiki.yt-history</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>REPLACE_WITH_ABSOLUTE_PATH/.skills/ingest-youtube-history/scripts/prepare_weekly.sh</string>
+  </array>
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Weekday</key><integer>1</integer>
+    <key>Hour</key><integer>9</integer>
+    <key>Minute</key><integer>0</integer>
+  </dict>
+  <key>StandardErrorPath</key>
+  <string>/tmp/yt-history-launchd.err</string>
+  <key>StandardOutPath</key>
+  <string>/tmp/yt-history-launchd.out</string>
+</dict>
+</plist>
