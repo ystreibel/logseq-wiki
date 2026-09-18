@@ -13,7 +13,7 @@
   <key>ProgramArguments</key>
   <array>
     <string>/bin/bash</string>
-    <string>REPLACE_WITH_ABSOLUTE_PATH/.skills/ingest-youtube-history/scripts/prepare_weekly.sh</string>
+    <string>REPLACE_WITH_ABSOLUTE_PATH/.skills/ingest-youtube-history/scripts/run_auto.sh</string>
   </array>
   <key>StartCalendarInterval</key>
   <dict>
