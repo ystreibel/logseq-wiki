@@ -12,7 +12,9 @@ PORT=9222
 CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 PROFILE="$HOME/.logseq-wiki/chrome-debug"
 
-notify() { osascript -e "display notification \"$2\" with title \"$1\"" 2>/dev/null; }
+# Attribute the notification to Finder so clicking it opens Finder (harmless),
+# not the AppleScript editor (which a bare `display notification` defaults to).
+notify() { osascript -e "tell application \"Finder\" to display notification \"$2\" with title \"$1\"" 2>/dev/null; }
 
 # 1. ensure a debug Chrome with the YouTube session is running — launch it headless if not
 if ! curl -s -m 5 "http://localhost:$PORT/json/version" >/dev/null 2>&1; then
