@@ -11,12 +11,20 @@ Usage: fetch_transcripts.py --in videos.json --out-dir /tmp/yt-transcripts [--ke
 """
 import json, sys, subprocess, argparse, os, re
 
+UUID_RE = re.compile(r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
+
 def nlm(*args, timeout=180):
     r = subprocess.run(["nlm", *args], capture_output=True, text=True, timeout=timeout)
     return r.stdout.strip(), r.stderr.strip(), r.returncode
 
+def nlm_id(*args, timeout=180):
+    # ponytail: this nlm CLI build has no --json output; scrape the UUID it prints instead
+    out, err, rc = nlm(*args, timeout=timeout)
+    m = UUID_RE.search(out)
+    return ({"id": m.group(0)} if m else {"_raw": out, "_err": err}), rc
+
 def nlm_json(*args, timeout=180):
-    out, err, rc = nlm(*args, "--json", timeout=timeout)
+    out, err, rc = nlm(*args, timeout=timeout)
     try:
         return json.loads(out), rc
     except json.JSONDecodeError:
@@ -36,8 +44,8 @@ def main():
         print(json.dumps({"status": "empty", "results": []})); return
     os.makedirs(args.out_dir, exist_ok=True)
 
-    nb, rc = nlm_json("notebook", "create", args.notebook_title)
-    nbid = nb.get("notebook_id") or nb.get("id")
+    nb, rc = nlm_id("notebook", "create", args.notebook_title)
+    nbid = nb.get("id")
     if not nbid:
         sys.exit(f"ERROR: notebook create failed: {nb}")
 
@@ -45,13 +53,14 @@ def main():
     try:
         for v in videos:
             # add the video (server-side, no cookies), wait for indexing
-            src, rc = nlm_json("source", "add", nbid, "--youtube", v["url"], "--wait", timeout=200)
-            sid = src.get("source_id")
+            src, rc = nlm_id("source", "add", nbid, "--youtube", v["url"], "--wait", timeout=200)
+            sid = src.get("id")
             if not sid:
                 results.append({**v, "status": "add_failed", "detail": src}); continue
             # retrieve raw transcript
             content, rc = nlm_json("source", "content", sid, timeout=120)
-            text = content.get("content") or content.get("text") or ""
+            payload = content.get("value", content)
+            text = payload.get("content") or payload.get("text") or ""
             if not text.strip():
                 results.append({**v, "status": "empty_transcript"}); continue
             slug = re.sub(r"[^a-z0-9]+", "-",

@@ -4,6 +4,12 @@
 # distillation + commit) to a headless `claude -p` run. No human in the loop.
 set -uo pipefail
 
+# launchd does not inherit the interactive PATH — set it explicitly so asdf-python,
+# claude, nlm and gh are all found.
+export PATH="$HOME/.asdf/shims:$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+PY="$HOME/.asdf/installs/python/3.12.8/bin/python3"   # the python3 that has websocket-client
+[ -x "$PY" ] || PY="python3"
+
 SKILL_DIR="$(cd "$(dirname "$0")" && pwd)"
 FRAMEWORK="$(cd "$SKILL_DIR/../../.." && pwd)"   # repo root (has CLAUDE.md + .claude/skills)
 PENDING="$HOME/.logseq-wiki/yt-pending.json"
@@ -30,7 +36,7 @@ if ! curl -s -m 5 "http://localhost:$PORT/json/version" >/dev/null 2>&1; then
 fi
 
 # 2. scrape last 7 days → pending file
-OUT="$(python3 "$SKILL_DIR/scrape_history.py" --days 7 2>>"$LOG")"
+OUT="$("$PY" "$SKILL_DIR/scrape_history.py" --days 7 2>>"$LOG")"
 if [ -z "$OUT" ] || echo "$OUT" | grep -q '^ERROR'; then
   notify "Wiki YouTube" "Session YouTube expirée — reconnecte-toi."
   say "scrape failed / session expired"
@@ -39,7 +45,7 @@ if [ -z "$OUT" ] || echo "$OUT" | grep -q '^ERROR'; then
 fi
 mkdir -p "$HOME/.logseq-wiki"
 echo "$OUT" > "$PENDING"
-COUNT=$(echo "$OUT" | python3 -c "import sys,json;print(len(json.load(sys.stdin)))" 2>/dev/null || echo "?")
+COUNT=$(echo "$OUT" | "$PY" -c "import sys,json;print(len(json.load(sys.stdin)))" 2>/dev/null || echo "?")
 say "scraped $COUNT videos"
 
 # 3. hand the full pipeline to a headless Claude run (from the framework repo)

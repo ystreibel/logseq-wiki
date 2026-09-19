@@ -5,7 +5,7 @@ Invoque d'abord le skill `ingest-youtube-history` pour les détails, mais voici 
 PARAMÈTRES FIXES DE CE RUN :
 - Thème : tech + maker (IA/agents, dev, cloud, Kubernetes, DevOps, LLM, cybersécurité, self-hosting, domotique/Home Assistant, électronique/ESP32, home-lab)
 - Période : 7 derniers jours
-- Plafond : maximum 25 vidéos ingérées ce run (les 25 plus pertinentes au thème si plus de candidats)
+- Plafond : maximum 25 vidéos ingérées ce run (les plus pertinentes au thème si plus de candidats)
 - Vault : lis `~/.logseq-wiki/config` pour LOGSEQ_VAULT_PATH
 
 ÉTAPES :
