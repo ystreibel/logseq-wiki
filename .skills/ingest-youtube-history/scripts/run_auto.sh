@@ -19,14 +19,14 @@ PROFILE="$HOME/.logseq-wiki/chrome-debug"
 CLAUDE="$HOME/.local/bin/claude"
 LOG="/tmp/yt-history-auto.log"
 
-# Notifications: prefer terminal-notifier (its own bundle id → clicking the banner is
-# harmless and can open the vault), fall back to osascript if it's absent. Note: a
-# Homebrew-installed terminal-notifier must be taken out of Gatekeeper quarantine once
+# Notifications: informational only, no click action (Logseq-OG has no URL scheme to open
+# a page, and opening the vault folder adds nothing). terminal-notifier is preferred for a
+# clean banner (its own bundle id, no click → nothing happens); osascript is the fallback.
+# Note: a brew-installed terminal-notifier must be taken out of Gatekeeper quarantine once
 # (`xattr -dr com.apple.quarantine <app>`) or macOS silently denies its notifications.
-VAULT_URL="file://$HOME/Projets/logseq"
 notify() {
   if command -v terminal-notifier >/dev/null 2>&1; then
-    terminal-notifier -title "$1" -message "$2" -open "$VAULT_URL" >/dev/null 2>&1
+    terminal-notifier -title "$1" -message "$2" >/dev/null 2>&1
   else
     osascript -e "display notification \"$2\" with title \"$1\"" 2>/dev/null
   fi
