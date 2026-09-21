@@ -24,9 +24,14 @@ LOG="/tmp/yt-history-auto.log"
 # clean banner (its own bundle id, no click → nothing happens); osascript is the fallback.
 # Note: a brew-installed terminal-notifier must be taken out of Gatekeeper quarantine once
 # (`xattr -dr com.apple.quarantine <app>`) or macOS silently denies its notifications.
+YT_ICON="$SKILL_DIR/../assets/youtube-icon.png"   # shown as a side thumbnail in the banner
 notify() {
   if command -v terminal-notifier >/dev/null 2>&1; then
-    terminal-notifier -title "$1" -message "$2" >/dev/null 2>&1
+    if [ -f "$YT_ICON" ]; then
+      terminal-notifier -title "$1" -message "$2" -contentImage "$YT_ICON" >/dev/null 2>&1
+    else
+      terminal-notifier -title "$1" -message "$2" >/dev/null 2>&1
+    fi
   else
     osascript -e "display notification \"$2\" with title \"$1\"" 2>/dev/null
   fi

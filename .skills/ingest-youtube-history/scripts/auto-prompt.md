@@ -31,8 +31,9 @@ PARAMÈTRES FIXES DE CE RUN :
 
 7. COMMIT — dans le vault, commit git avec l'identité UIRIS `Yohann STREIBEL <yohann.streibel@externe.systeme-u.fr>` et SANS AUCUN co-auteur Claude. Message : `[logseq-plugin-git:commit] <timestamp ISO8601>`. Push origin main.
 
-8. NOTIFIE le résultat (informatif, sans action au clic) — préfère terminal-notifier, fallback osascript :
-   `terminal-notifier -title "Wiki YouTube" -message "<N> vidéos ingérées (<détail>)"`
+8. NOTIFIE le résultat (informatif, sans action au clic) — préfère terminal-notifier avec la
+   vignette YouTube, fallback osascript :
+   `terminal-notifier -title "Wiki YouTube" -message "<N> vidéos ingérées (<détail>)" -contentImage "<SKILL_DIR>/../assets/youtube-icon.png"`
    (s'il est absent : `osascript -e 'display notification "<N> vidéos ingérées" with title "Wiki YouTube"'`)
 
 RÈGLES ABSOLUES :
