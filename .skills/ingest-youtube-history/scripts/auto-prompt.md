@@ -31,8 +31,9 @@ PARAMÈTRES FIXES DE CE RUN :
 
 7. COMMIT — dans le vault, commit git avec l'identité UIRIS `Yohann STREIBEL <yohann.streibel@externe.systeme-u.fr>` et SANS AUCUN co-auteur Claude. Message : `[logseq-plugin-git:commit] <timestamp ISO8601>`. Push origin main.
 
-8. NOTIFIE le résultat via Finder :
-   `osascript -e 'tell application "Finder" to display notification "<N> vidéos ingérées (<détail>)" with title "Wiki YouTube"'`
+8. NOTIFIE le résultat — préfère terminal-notifier (clic → ouvre le vault), fallback osascript :
+   `terminal-notifier -title "Wiki YouTube" -message "<N> vidéos ingérées (<détail>)" -open "file://$HOME/Projets/logseq"`
+   (s'il est absent : `osascript -e 'display notification "<N> vidéos ingérées" with title "Wiki YouTube"'`)
 
 RÈGLES ABSOLUES :
 - Identité git vault = UIRIS ; JAMAIS de `Co-Authored-By: Claude`.

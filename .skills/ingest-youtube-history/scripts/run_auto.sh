@@ -19,7 +19,18 @@ PROFILE="$HOME/.logseq-wiki/chrome-debug"
 CLAUDE="$HOME/.local/bin/claude"
 LOG="/tmp/yt-history-auto.log"
 
-notify() { osascript -e "tell application \"Finder\" to display notification \"$2\" with title \"$1\"" 2>/dev/null; }
+# Notifications: prefer terminal-notifier (its own bundle id → clicking the banner is
+# harmless and can open the vault), fall back to osascript if it's absent. Note: a
+# Homebrew-installed terminal-notifier must be taken out of Gatekeeper quarantine once
+# (`xattr -dr com.apple.quarantine <app>`) or macOS silently denies its notifications.
+VAULT_URL="file://$HOME/Projets/logseq"
+notify() {
+  if command -v terminal-notifier >/dev/null 2>&1; then
+    terminal-notifier -title "$1" -message "$2" -open "$VAULT_URL" >/dev/null 2>&1
+  else
+    osascript -e "display notification \"$2\" with title \"$1\"" 2>/dev/null
+  fi
+}
 say() { echo "[$(date '+%F %T')] $1" >> "$LOG"; }
 
 say "=== run_auto start ==="
