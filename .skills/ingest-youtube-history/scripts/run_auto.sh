@@ -64,6 +64,13 @@ echo "$OUT" > "$PENDING"
 COUNT=$(echo "$OUT" | "$PY" -c "import sys,json;print(len(json.load(sys.stdin)))" 2>/dev/null || echo "?")
 say "scraped $COUNT videos"
 
+# 2b. refresh NotebookLM session non-interactively — its Google cookies rotate/expire and
+# `nlm login` is interactive (impossible in cron). `nlm auth refresh` reissues cookies
+# without a browser, so the headless run below doesn't hit a 400 auth error.
+if command -v nlm >/dev/null 2>&1; then
+  nlm auth refresh >>"$LOG" 2>&1 && say "nlm auth refreshed" || say "nlm auth refresh failed (may still be valid)"
+fi
+
 # 3. hand the full pipeline to a headless Claude run (from the framework repo)
 notify "Wiki YouTube" "$COUNT vidéos scrapées — ingestion automatique en cours…"
 say "launching claude -p"
