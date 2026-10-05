@@ -76,7 +76,9 @@ notify "Wiki YouTube" "$COUNT vidéos scrapées — ingestion automatique en cou
 say "launching claude -p"
 cd "$FRAMEWORK" || exit 1
 PROMPT="$(cat "$SKILL_DIR/auto-prompt.md")"
-"$CLAUDE" -p "$PROMPT" --dangerously-skip-permissions >>"$LOG" 2>&1
+# Distillation is a well-scoped task (summarize transcripts) — run it on Sonnet, not the
+# account's Opus default, to cut token cost ~5x. Overridable via YT_MODEL env var.
+"$CLAUDE" -p "$PROMPT" --model "${YT_MODEL:-sonnet}" --dangerously-skip-permissions >>"$LOG" 2>&1
 RC=$?
 say "claude -p finished rc=$RC"
 

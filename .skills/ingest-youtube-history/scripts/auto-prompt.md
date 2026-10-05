@@ -20,7 +20,9 @@ PARAMÈTRES FIXES DE CE RUN :
    `python3 <SKILL_DIR>/scripts/fetch_transcripts.py --in <shortlist>.json --out-dir <scratch>/yt-transcripts`
    (SKILL_DIR = le dossier de ce prompt). Garde les entrées `status: ok`.
 
-5. DISTILLATION — pour chaque transcript OK, applique le flux ingest-video :
+5. DISTILLATION — pour chaque transcript OK, applique le flux ingest-video. Si tu délègues la
+   distillation à des sous-agents (Task), lance-les sur le modèle **sonnet** (c'est une tâche
+   bien cadrée ; ne pas gaspiller de l'Opus) :
    - page source `pages/videos___<slug>.md` (type:: video, url::, sources:: NON — c'est la source ; transcript en blocs ## Transcript)
    - page wiki `wiki/<theme>/<page-slug>.md` : distillation FR, `sources:: [[videos/<slug>]]` (jamais une URL), sections thématiques, marqueurs ^[inferred]/^[ambiguous]
    - cross-linke vers les pages existantes pertinentes du thème (grep wiki/<theme>/ avant de lier — 0 lien cassé)
